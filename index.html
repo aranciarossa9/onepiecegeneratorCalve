@@ -25,11 +25,13 @@
   .footer { opacity: .6; font-size: 12px; text-align: center; padding: 10px 0 18px; }
   .teams { display: flex; gap: 40px; margin-top: 20px; flex-wrap: wrap; justify-content: center; }
   .team { background: linear-gradient(145deg, #131938, #1a2040); padding: 12px 16px; border-radius: 16px; width: 300px; box-shadow: 0 8px 20px rgba(0,0,0,.5); }
-  .team h2 { margin-top: 0; text-align: center; color: #ff6f61; }
-  .role { margin: 6px 0; padding: 6px 10px; background: #1e2650; border-radius: 8px; font-size: 14px; cursor: pointer; display: flex; justify-content: space-between; align-items: center; transition: background 0.2s; }
-  .role:hover { background: #2b356f; }
-  .role span { font-weight: 700; color: #ffdd57; }
-  .selected { background: #4f74ff !important; }
+  .team h2 { margin-top: 0; text-align: center; color: #ffdd57; font-weight: 700; } /* titolo senza bordo rosso */
+  .role { margin: 6px 0; padding: 6px 10px; border-radius: 8px; font-size: 14px; cursor: pointer; display: flex; justify-content: space-between; align-items: center; transition: background 0.2s; }
+  .role.capitano { background: #ff4f4f; color: white; }
+  .role.vice { background: #4f94ff; color: white; }
+  .role.combattente { background: #4fff7f; color: #0b1020; }
+  .role:hover { opacity: 0.8; }
+  .selected { outline: 2px solid #ffdd57; }
   .role-menu { position: absolute; background: #1a2040; border: 1px solid #4f74ff; border-radius: 10px; padding: 6px; display: none; z-index: 10; }
   .role-menu div { padding: 6px 10px; cursor: pointer; border-radius: 6px; }
   .role-menu div:hover { background: #4f74ff; color: white; }
@@ -65,15 +67,13 @@
 
 <div class="role-menu" id="roleMenu"></div>
 
-<div class="footer">One Piece fan project — The Pirates Of Spekito The Clown</div>
+<div class="footer">One Piece fan project — solo per uso personale</div>
 
 <script>
 let data = [];
 let pool = [];
 let totalCharacters = 0;
 let currentPlayer = 1;
-const team1 = {};
-const team2 = {};
 let currentChar = null;
 
 const $ = (id) => document.getElementById(id);
@@ -157,20 +157,4 @@ function showRoleMenu(e, char) {
   menu.style.top = e.pageY + 'px';
 }
 
-document.addEventListener('click', e => {
-  if (!e.target.closest('.card') && !e.target.closest('#roleMenu')) {
-    $('roleMenu').style.display = 'none';
-  }
-});
-
-function assignCharacterToRole(roleDiv) {
-  roleDiv.textContent = `${roleDiv.dataset.role}: ${currentChar.name}`;
-  roleDiv.classList.add('selected');
-  currentPlayer = currentPlayer === 1 ? 2 : 1;
-  $('roleMenu').style.display = 'none';
-}
-
-load();
-</script>
-</body>
-</html>
+document.addEvent
