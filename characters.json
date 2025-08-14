@@ -441,7 +441,8 @@
     "image": "images/foxy.jpg"
   },
   [
-  {
+  {  
+    "id": 44,
     "name": "Silvers Rayleigh",
     "crew": "Roger Pirates",
     "role": "First Mate",
@@ -451,7 +452,7 @@
     "conqueror_haki": true,
     "image": "images/rayleigh.jpg"
   },
-  {
+  {"id": 45,
     "name": "Boa Hancock",
     "crew": "Kuja Pirates",
     "role": "Captain",
@@ -461,7 +462,7 @@
     "conqueror_haki": true,
     "image": "images/boa_hancock.jpg"
   },
-  {
+  {"id": 46,
     "name": "Edward Newgate",
     "crew": "Whitebeard Pirates",
     "role": "Captain",
@@ -471,7 +472,7 @@
     "conqueror_haki": true,
     "image": "images/whitebeard.jpg"
   },
-  {
+  {"id": 47,
     "name": "Katakuri",
     "crew": "Big Mom Pirates",
     "role": "Sweet Commander",
@@ -481,7 +482,7 @@
     "conqueror_haki": true,
     "image": "images/katakuri.jpg"
   },
-  {
+  {"id": 48,
     "name": "Monkey D. Garp",
     "crew": "Marines",
     "role": "Vice Admiral",
