@@ -24,10 +24,10 @@
 /* --- Page Background --- */
 body {
   margin: 0;
-  font-family: 'Treasure Map Deadhand', cursive, sans-serif;
+  font-family: 'Pirata One', sans-serif;
   background: 
     url('images/parchment-texture.jpg') center/cover no-repeat fixed, /* old paper */
-    linear-gradient(180deg, #87ceeb 0%, #1e3f66 100%); /* sky to ocean gradient */
+    linear-gradient(180deg, #f4fcff 0%, #1e3f66 100%); /* sky to ocean gradient */
   background-blend-mode: multiply;
   color: #3b2f1a;
 }
@@ -276,11 +276,11 @@ h1 {
   }
 
   .team { 
-    background: linear-gradient(145deg, #131938, #1a2040); 
+    background: linear-gradient(145deg, #013c53, #013c53); 
     padding: 16px; 
     border-radius: 20px; 
     width: 320px; 
-    box-shadow: 0 10px 30px rgba(0,0,0,.5); 
+    box-shadow: 0 10px 30px rgba(245, 237, 237, 0.5); 
     transition: transform 0.2s; 
   }
   .team:hover { 
@@ -292,7 +292,7 @@ h1 {
     color: var(--highlight); 
     font-weight: 700; 
     font-size: 20px;
-    text-shadow: 0 2px 4px rgba(0,0,0,.6);
+    text-shadow: 0 2px 4px rgba(238, 226, 226, 0.6);
   }
 
   .role { 
@@ -308,7 +308,7 @@ h1 {
   }
   .role.capitano { background: var(--pill-cap); color: white; }
   .role.vice { background: var(--pill-vice); color: white; }
-  .role.combattente { background: var(--pill-fighter); color: #0b1020; }
+  .role.combattente { background: var(--pill-fighter); color: #d8e1ff; }
   .role:hover { 
     opacity: 0.85; 
     transform: scale(1.02);
@@ -319,14 +319,14 @@ h1 {
 
   .role-menu { 
     position: absolute; 
-    background: var(--bg-card); 
+    background: var(#f0e4ff); 
     border: 1px solid var(--primary); 
     border-radius: 12px; 
     padding: 8px; 
     display: none; 
     z-index: 10; 
     box-shadow: 0 8px 20px rgba(0,0,0,0.7);
-    transition: opacity 0.2s ease;
+    transition: opacity 0.1s ease;
   }
   .role-menu div { 
     padding: 8px 12px; 
