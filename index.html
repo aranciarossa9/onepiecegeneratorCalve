@@ -141,3 +141,35 @@ function showRoleMenu(e, char) {
   currentChar = char;
   const menu = $('roleMenu');
   menu.innerHTML = '';
+  const team = currentPlayer === 1 ? 'team1' : 'team2';
+  const roles = Array.from($(team).querySelectorAll('.role'));
+  roles.forEach(roleDiv => {
+    if (roleDiv.textContent.endsWith('—')) {
+      const item = document.createElement('div');
+      item.textContent = roleDiv.dataset.role;
+      item.addEventListener('click', () => assignCharacterToRole(roleDiv));
+      menu.appendChild(item);
+    }
+  });
+  menu.style.display = 'block';
+  menu.style.top = e.clientY + 'px';
+  menu.style.left = e.clientX + 'px';
+}
+
+function assignCharacterToRole(roleDiv) {
+  roleDiv.textContent = `${roleDiv.dataset.role}: ${currentChar.name}`;
+  $('roleMenu').style.display = 'none';
+  currentPlayer = currentPlayer === 1 ? 2 : 1;
+}
+
+document.addEventListener('click', (e) => {
+  if (!e.target.closest('.card') && !e.target.closest('#roleMenu')) {
+    $('roleMenu').style.display = 'none';
+  }
+});
+
+load();
+</script>
+
+</body>
+</html>
