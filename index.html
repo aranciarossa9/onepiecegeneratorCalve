@@ -1,444 +1,444 @@
-<!doctype html>
-<html lang="it">
-<head>
-<meta charset="utf-8" />
-<meta name="viewport" content="width=device-width,initial-scale=1" />
-<title>One Piece — Squadre</title>
-<style>
-:root { 
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
-  --primary: #4f74ff;
-  --secondary: #2b356f;
-  --highlight: #ffdd57;
-  --bg-card: #1a2040;
-  --bg-body: #0b1020;
-  --pill-cap: #ff4f4f;
-  --pill-vice: #4f94ff;
-  --pill-fighter: #4fff7f;
-  --glow-bounty: rgba(255,215,0,0.6);
-  --glow-devil: rgba(255,0,255,0.6);
-  --glow-both: rgba(0,255,255,0.6);
-  --glow-conqueror: rgba(255,0,0,0.6);
-}
+  <!doctype html>
+  <html lang="it">
+  <head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>One Piece — Squadre</title>
+  <style>
+  :root { 
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
+    --primary: #4f74ff;
+    --secondary: #2b356f;
+    --highlight: #ffdd57;
+    --bg-card: #1a2040;
+    --bg-body: #0b1020;
+    --pill-cap: #ff4f4f;
+    --pill-vice: #4f94ff;
+    --pill-fighter: #4fff7f;
+    --glow-bounty: rgba(255,215,0,0.6);
+    --glow-devil: rgba(255,0,255,0.6);
+    --glow-both: rgba(0,255,255,0.6);
+    --glow-conqueror: rgba(255,0,0,0.6);
+  }
 
-body { 
-  margin: 0; 
-   background: linear-gradient(#001f3f, #005f73);
-  background-attachment: fixed;
-  color: #e9eefb; 
-  display: flex; 
-  flex-direction: column; 
-  align-items: center; 
-  min-height: 100dvh; 
-  padding: 20px; 
-  transition: background 0.3s;
-}
-.attributes {
-  background: rgba(255, 224, 186, 0.18);
-  border: 2px solid #c49a6c;
-  border-radius: 12px;
-  padding: 10px;
-  margin-top: 8px;
-  box-shadow: inset 0 0 10px rgba(0,0,0,0.15);
-  display: flex;
-  flex-wrap: wrap;
-  gap: 6px;
-  justify-content: center;
-}
+  body { 
+    margin: 0; 
+    background: linear-gradient(#001f3f, #005f73);
+    background-attachment: fixed;
+    color: #e9eefb; 
+    display: flex; 
+    flex-direction: column; 
+    align-items: center; 
+    min-height: 100dvh; 
+    padding: 20px; 
+    transition: background 0.3s;
+  }
+  .attributes {
+    background: rgba(255, 224, 186, 0.18);
+    border: 2px solid #c49a6c;
+    border-radius: 12px;
+    padding: 10px;
+    margin-top: 8px;
+    box-shadow: inset 0 0 10px rgba(0,0,0,0.15);
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    justify-content: center;
+  }
 
-.attributes .pill {
-  background: linear-gradient(to bottom, #fdf3dc, #f2d7b4);
-  border: 2px solid #a67c52;
-  border-radius: 20px;
-  padding: 6px 12px;
-  font-size: 13px;
-  font-weight: bold;
-  font-family: 'Treasure Map Deadhand', serif; /* Optional pirate font */
-  color: #5a3e1b;
-  box-shadow: 0 2px 4px rgba(0,0,0,0.25);
-  white-space: nowrap;
-}
+  .attributes .pill {
+    background: linear-gradient(to bottom, #fdf3dc, #f2d7b4);
+    border: 2px solid #a67c52;
+    border-radius: 20px;
+    padding: 6px 12px;
+    font-size: 13px;
+    font-weight: bold;
+    font-family: 'Treasure Map Deadhand', serif; /* Optional pirate font */
+    color: #5a3e1b;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.25);
+    white-space: nowrap;
+  }
 
-.attributes .pill:hover {
-  transform: scale(1.05);
-  background: linear-gradient(to bottom, #fff7e6, #f5d9b0);
-}
+  .attributes .pill:hover {
+    transform: scale(1.05);
+    background: linear-gradient(to bottom, #fff7e6, #f5d9b0);
+  }
 
-.aliases {
-  margin-top: 8px;
-  font-style: italic;
-  font-size: 12px;
-  opacity: 0.85;
-  text-align: center;
-}
+  .aliases {
+    margin-top: 8px;
+    font-style: italic;
+    font-size: 12px;
+    opacity: 0.85;
+    text-align: center;
+  }
 
 
-.card-container { 
-  display: flex; 
-  gap: 20px; 
-  flex-wrap: wrap; 
-  justify-content: center; 
-  margin-bottom: 20px; 
-}
+  .card-container { 
+    display: flex; 
+    gap: 20px; 
+    flex-wrap: wrap; 
+    justify-content: center; 
+    margin-bottom: 20px; 
+  }
 
-.card { 
-  width: min(320px, 92vw); 
-  background: linear-gradient(145deg, #131938, var(--bg-card)); 
-  border-radius: 20px; 
-  box-shadow: 0 10px 30px rgba(0,0,0,.6); 
-  overflow: hidden; 
-  cursor: pointer; 
-  transition: transform 0.3s, box-shadow 0.3s, filter 0.3s, box-shadow 0.3s;
-}
-.card:hover { 
-  transform: translateY(-8px) scale(1.02); 
-  box-shadow: 0 20px 50px rgba(0,0,0,.8); 
-  filter: brightness(1.05);
-}
+  .card { 
+    width: min(320px, 92vw); 
+    background: linear-gradient(145deg, #131938, var(--bg-card)); 
+    border-radius: 20px; 
+    box-shadow: 0 10px 30px rgba(0,0,0,.6); 
+    overflow: hidden; 
+    cursor: pointer; 
+    transition: transform 0.3s, box-shadow 0.3s, filter 0.3s, box-shadow 0.3s;
+  }
+  .card:hover { 
+    transform: translateY(-8px) scale(1.02); 
+    box-shadow: 0 20px 50px rgba(0,0,0,.8); 
+    filter: brightness(1.05);
+  }
 
-.hero { 
-  aspect-ratio: 16/9; 
-  width: 100%; 
-  object-fit: cover; 
-  background: #0a0f28; 
-}
+  .hero { 
+    aspect-ratio: 16/9; 
+    width: 100%; 
+    object-fit: cover; 
+    background: #0a0f28; 
+  }
 
-.content { 
-  padding: 20px 22px 24px; 
-}
+  .content { 
+    padding: 20px 22px 24px; 
+  }
 
-h1 { 
-  margin: 0 0 6px; 
-  font-size: 24px; 
-  color: var(--highlight); 
-  text-shadow: 0 2px 4px rgba(0,0,0,.7);
-}
+  h1 { 
+    margin: 0 0 6px; 
+    font-size: 24px; 
+    color: var(--highlight); 
+    text-shadow: 0 2px 4px rgba(0,0,0,.7);
+  }
 
-.meta { 
-  opacity: .8; 
-  font-size: 14px; 
-  margin-bottom: 12px; 
-}
+  .meta { 
+    opacity: .8; 
+    font-size: 14px; 
+    margin-bottom: 12px; 
+  }
 
-.grid { 
-  display: grid; 
-  grid-template-columns: 1fr 1fr; 
-  gap: 12px; 
-  margin: 12px 0; 
-}
+  .grid { 
+    display: grid; 
+    grid-template-columns: 1fr 1fr; 
+    gap: 12px; 
+    margin: 12px 0; 
+  }
 
-.pill { 
-  background: var(--secondary); 
-  padding: 8px 10px; 
-  border-radius: 999px; 
-  text-align: center; 
-  font-size: 13px; 
-  transition: background 0.2s; 
-}
-.pill:hover { 
-  background: var(--primary); 
-}
+  .pill { 
+    background: var(--secondary); 
+    padding: 8px 10px; 
+    border-radius: 999px; 
+    text-align: center; 
+    font-size: 13px; 
+    transition: background 0.2s; 
+  }
+  .pill:hover { 
+    background: var(--primary); 
+  }
 
-.actions { 
-  display: flex; 
-  gap: 12px; 
-  margin-bottom: 12px; 
-  flex-wrap: wrap; 
-  justify-content: center; 
-}
-button { 
-  cursor: pointer; 
-  border: 0; 
-  border-radius: 999px; 
-  padding: 12px 20px; 
-  font-weight: 700; 
-  background: var(--primary); 
-  color: white; 
-  transition: background 0.2s, transform 0.2s; 
-}
-button:hover { 
-  background: #627fff; 
-  transform: scale(1.05);
-}
-button.secondary { 
-  background: var(--secondary); 
-}
+  .actions { 
+    display: flex; 
+    gap: 12px; 
+    margin-bottom: 12px; 
+    flex-wrap: wrap; 
+    justify-content: center; 
+  }
+  button { 
+    cursor: pointer; 
+    border: 0; 
+    border-radius: 999px; 
+    padding: 12px 20px; 
+    font-weight: 700; 
+    background: var(--primary); 
+    color: white; 
+    transition: background 0.2s, transform 0.2s; 
+  }
+  button:hover { 
+    background: #627fff; 
+    transform: scale(1.05);
+  }
+  button.secondary { 
+    background: var(--secondary); 
+  }
 
-#counter { 
-  margin-top: 8px; 
-  font-size: 14px; 
-  opacity: .9; 
-  text-align: center; 
-  color: var(--highlight);
-}
+  #counter { 
+    margin-top: 8px; 
+    font-size: 14px; 
+    opacity: .9; 
+    text-align: center; 
+    color: var(--highlight);
+  }
 
-.footer { 
-  opacity: .6; 
-  font-size: 12px; 
-  text-align: center; 
-  padding: 10px 0 18px; 
-}
+  .footer { 
+    opacity: .6; 
+    font-size: 12px; 
+    text-align: center; 
+    padding: 10px 0 18px; 
+  }
 
-.teams { 
-  display: flex; 
-  gap: 40px; 
-  margin-top: 20px; 
-  flex-wrap: wrap; 
-  justify-content: center; 
-}
+  .teams { 
+    display: flex; 
+    gap: 40px; 
+    margin-top: 20px; 
+    flex-wrap: wrap; 
+    justify-content: center; 
+  }
 
-.team { 
-  background: linear-gradient(145deg, #131938, #1a2040); 
-  padding: 16px; 
-  border-radius: 20px; 
-  width: 320px; 
-  box-shadow: 0 10px 30px rgba(0,0,0,.5); 
-  transition: transform 0.2s; 
-}
-.team:hover { 
-  transform: translateY(-5px); 
-}
-.team h2 { 
-  margin-top: 0; 
-  text-align: center; 
-  color: var(--highlight); 
-  font-weight: 700; 
-  font-size: 20px;
-  text-shadow: 0 2px 4px rgba(0,0,0,.6);
-}
+  .team { 
+    background: linear-gradient(145deg, #131938, #1a2040); 
+    padding: 16px; 
+    border-radius: 20px; 
+    width: 320px; 
+    box-shadow: 0 10px 30px rgba(0,0,0,.5); 
+    transition: transform 0.2s; 
+  }
+  .team:hover { 
+    transform: translateY(-5px); 
+  }
+  .team h2 { 
+    margin-top: 0; 
+    text-align: center; 
+    color: var(--highlight); 
+    font-weight: 700; 
+    font-size: 20px;
+    text-shadow: 0 2px 4px rgba(0,0,0,.6);
+  }
 
-.role { 
-  margin: 8px 0; 
-  padding: 10px 12px; 
-  border-radius: 12px; 
-  font-size: 14px; 
-  cursor: pointer; 
-  display: flex; 
-  justify-content: space-between; 
-  align-items: center; 
-  transition: background 0.2s, transform 0.2s; 
-}
-.role.capitano { background: var(--pill-cap); color: white; }
-.role.vice { background: var(--pill-vice); color: white; }
-.role.combattente { background: var(--pill-fighter); color: #0b1020; }
-.role:hover { 
-  opacity: 0.85; 
-  transform: scale(1.02);
-}
-.selected { 
-  outline: 3px solid var(--highlight); 
-}
+  .role { 
+    margin: 8px 0; 
+    padding: 10px 12px; 
+    border-radius: 12px; 
+    font-size: 14px; 
+    cursor: pointer; 
+    display: flex; 
+    justify-content: space-between; 
+    align-items: center; 
+    transition: background 0.2s, transform 0.2s; 
+  }
+  .role.capitano { background: var(--pill-cap); color: white; }
+  .role.vice { background: var(--pill-vice); color: white; }
+  .role.combattente { background: var(--pill-fighter); color: #0b1020; }
+  .role:hover { 
+    opacity: 0.85; 
+    transform: scale(1.02);
+  }
+  .selected { 
+    outline: 3px solid var(--highlight); 
+  }
 
-.role-menu { 
-  position: absolute; 
-  background: var(--bg-card); 
-  border: 1px solid var(--primary); 
-  border-radius: 12px; 
-  padding: 8px; 
-  display: none; 
-  z-index: 10; 
-  box-shadow: 0 8px 20px rgba(0,0,0,0.7);
-  transition: opacity 0.2s ease;
-}
-.role-menu div { 
-  padding: 8px 12px; 
-  cursor: pointer; 
-  border-radius: 8px; 
-}
-.role-menu div:hover { 
-  background: var(--primary); 
-  color: white; 
-}
+  .role-menu { 
+    position: absolute; 
+    background: var(--bg-card); 
+    border: 1px solid var(--primary); 
+    border-radius: 12px; 
+    padding: 8px; 
+    display: none; 
+    z-index: 10; 
+    box-shadow: 0 8px 20px rgba(0,0,0,0.7);
+    transition: opacity 0.2s ease;
+  }
+  .role-menu div { 
+    padding: 8px 12px; 
+    cursor: pointer; 
+    border-radius: 8px; 
+  }
+  .role-menu div:hover { 
+    background: var(--primary); 
+    color: white; 
+  }
 
-.legend {
-  margin-top: 20px;
-  text-align: center;
-  font-size: 14px;
-  color: var(--highlight);
-}
+  .legend {
+    margin-top: 20px;
+    text-align: center;
+    font-size: 14px;
+    color: var(--highlight);
+  }
 
-.legend h3 {
-  margin-bottom: 8px;
-  font-size: 16px;
-  text-decoration: underline;
-}
+  .legend h3 {
+    margin-bottom: 8px;
+    font-size: 16px;
+    text-decoration: underline;
+  }
 
-.legend span {
-  display: inline-block;
-  width: 16px;
-  height: 16px;
-  border-radius: 50%;
-  margin-right: 6px;
-  vertical-align: middle;
-}
-.glow-bounty { background: var(--glow-bounty); }
-.glow-devil { background: var(--glow-devil); }
-.glow-both { background: var(--glow-both); }
-.glow-conqueror { background: var(--glow-conqueror); }
+  .legend span {
+    display: inline-block;
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    margin-right: 6px;
+    vertical-align: middle;
+  }
+  .glow-bounty { background: var(--glow-bounty); }
+  .glow-devil { background: var(--glow-devil); }
+  .glow-both { background: var(--glow-both); }
+  .glow-conqueror { background: var(--glow-conqueror); }
 
-</style>
-</head>
-<body>
+  </style>
+  </head>
+  <body>
 
-<div class="actions">
-  <button id="randomBtn">🎲 Random</button>
-  <button id="noRepeatBtn" class="secondary">🔁 No ripetizioni</button>
-</div>
-<div id="counter">0 / 0</div>
-<div class="card-container" id="cards"></div>
-
-<div class="teams">
-  <div class="team" id="team1">
-    <h2>Giocatore 1</h2>
-    <div class="role capitano" data-role="Capitano">Capitano: —</div>
-    <div class="role vice" data-role="Vice Capitano">Vice Capitano: —</div>
-    <div class="role combattente" data-role="Primo Combattente">Primo Combattente: —</div>
-    <div class="role combattente" data-role="Secondo Combattente">Secondo Combattente: —</div>
-    <div class="role combattente" data-role="Terzo Combattente">Terzo Combattente: —</div>
+  <div class="actions">
+    <button id="randomBtn">🎲 Random</button>
+    <button id="noRepeatBtn" class="secondary">🔁 No ripetizioni</button>
   </div>
-  <div class="team" id="team2">
-    <h2>Giocatore 2</h2>
-    <div class="role capitano" data-role="Capitano">Capitano: —</div>
-    <div class="role vice" data-role="Vice Capitano">Vice Capitano: —</div>
-    <div class="role combattente" data-role="Primo Combattente">Primo Combattente: —</div>
-    <div class="role combattente" data-role="Secondo Combattente">Secondo Combattente: —</div>
-    <div class="role combattente" data-role="Terzo Combattente">Terzo Combattente: —</div>
+  <div id="counter">0 / 0</div>
+  <div class="card-container" id="cards"></div>
+
+  <div class="teams">
+    <div class="team" id="team1">
+      <h2>Giocatore 1</h2>
+      <div class="role capitano" data-role="Capitano">Capitano: —</div>
+      <div class="role vice" data-role="Vice Capitano">Vice Capitano: —</div>
+      <div class="role combattente" data-role="Primo Combattente">Primo Combattente: —</div>
+      <div class="role combattente" data-role="Secondo Combattente">Secondo Combattente: —</div>
+      <div class="role combattente" data-role="Terzo Combattente">Terzo Combattente: —</div>
+    </div>
+    <div class="team" id="team2">
+      <h2>Giocatore 2</h2>
+      <div class="role capitano" data-role="Capitano">Capitano: —</div>
+      <div class="role vice" data-role="Vice Capitano">Vice Capitano: —</div>
+      <div class="role combattente" data-role="Primo Combattente">Primo Combattente: —</div>
+      <div class="role combattente" data-role="Secondo Combattente">Secondo Combattente: —</div>
+      <div class="role combattente" data-role="Terzo Combattente">Terzo Combattente: —</div>
+    </div>
   </div>
-</div>
 
-<div class="role-menu" id="roleMenu"></div>
+  <div class="role-menu" id="roleMenu"></div>
 
-<div class="legend">
-  <div><span class="glow-bounty"></span>Bounty > 2.5B</div>
-  <div><span class="glow-devil"></span> Devil Fruit</div>
-  <div><span class="glow-both"></span>Both</div>
-  <div><span class="glow-conqueror"></span> Conqueror Haki</div>
-</div>
+  <div class="legend">
+    <div><span class="glow-bounty"></span>Bounty > 2.5B</div>
+    <div><span class="glow-devil"></span> Devil Fruit</div>
+    <div><span class="glow-both"></span>Both</div>
+    <div><span class="glow-conqueror"></span> Conqueror Haki</div>
+  </div>
 
-<div class="footer">One Piece fan project — solo per uso personale</div>
+  <div class="footer">One Piece fan project — solo per uso personale</div>
 
-<script>
-let data = [];
-let pool = [];
-let totalCharacters = 0;
-let currentPlayer = 1;
-let currentChar = null;
+  <script>
+  let data = [];
+  let pool = [];
+  let totalCharacters = 0;
+  let currentPlayer = 1;
+  let currentChar = null;
 
-const $ = (id) => document.getElementById(id);
+  const $ = (id) => document.getElementById(id);
 
-async function load() {
-  const res = await fetch('characters.json');
-  data = await res.json();
-  totalCharacters = data.length;
-  pool = [...data];
-  showCards([randomFrom(data)]);
-  updateCounter();
-}
-
-function randomFrom(arr) {
-  return arr[Math.floor(Math.random() * arr.length)];
-}
-
-function showCards(chars) {
-  const container = $('cards');
-  container.innerHTML = "";
-  chars.forEach(char => {
-    const card = document.createElement("div");
-    card.className = "card";
-    
-    // Glow logic
-    if (char.bounty && parseInt(char.bounty.replace(/\D/g,'')) > 2500000000 
-        && char.devil_fruit && char.conqueror_haki) {
-      card.style.boxShadow = `0 0 20px 5px var(--glow-conqueror)`;
-    } else if (char.conqueror_haki) {
-      card.style.boxShadow = `0 0 20px 5px var(--glow-conqueror)`;
-    } else if (char.bounty && parseInt(char.bounty.replace(/\D/g,'')) > 2500000000 
-               && char.devil_fruit) {
-      card.style.boxShadow = `0 0 20px 5px var(--glow-both)`;
-    } else if (char.bounty && parseInt(char.bounty.replace(/\D/g,'')) > 2500000000) {
-      card.style.boxShadow = `0 0 20px 5px var(--glow-bounty)`;
-    } else if (char.devil_fruit) {
-      card.style.boxShadow = `0 0 20px 5px var(--glow-devil)`;
-    }
-
-    // Card HTML
-    card.innerHTML = `
-      <img class="hero" src="${char.image}" alt="${char.name}">
-      <div class="content">
-        <h1>${char.name}</h1>
-        <div class="meta">${char.crew || '—'}</div>
-        
-        <!-- One Piece styled attributes -->
-        <div class="attributes">
-          <div class="pill">🏴‍☠️ ${char.role || '—'}</div>
-          <div class="pill">💰 ${char.bounty ? char.bounty : '—'}</div>
-          <div class="pill">🍇 ${char.devil_fruit ?? '—'}</div>
-        </div>
-        
-        <!-- Aliases (kept as separate row) -->
-        <div class="aliases">
-          <span>${(char.aliases && char.aliases.length) ? char.aliases.join(', ') : '—'}</span>
-        </div>
-      </div>
-    `;
-    card.addEventListener('click', (e) => showRoleMenu(e, char));
-    container.appendChild(card);
-  });
-}
-
-function updateCounter() {
-  const used = totalCharacters - pool.length;
-  $('counter').textContent = `${used} / ${totalCharacters}`;
-}
-
-$('randomBtn').addEventListener('click', () => {
-  showCards([randomFrom(data)]);
-});
-
-$('noRepeatBtn').addEventListener('click', () => {
-  if (pool.length === 0) {
-    alert("Tutti i personaggi sono stati mostrati! Si ricomincia.");
+  async function load() {
+    const res = await fetch('characters.json');
+    data = await res.json();
+    totalCharacters = data.length;
     pool = [...data];
+    showCards([randomFrom(data)]);
+    updateCounter();
   }
-  const idx = Math.floor(Math.random() * pool.length);
-  const pick = pool.splice(idx, 1)[0];
-  showCards([pick]);
-  updateCounter();
-});
 
-function showRoleMenu(e, char) {
-  currentChar = char;
-  const menu = $('roleMenu');
-  menu.innerHTML = '';
-  const team = currentPlayer === 1 ? 'team1' : 'team2';
-  const roles = Array.from($(team).querySelectorAll('.role'));
-  roles.forEach(roleDiv => {
-    if (roleDiv.textContent.endsWith('—')) {
-      const item = document.createElement('div');
-      item.textContent = roleDiv.dataset.role;
-      item.addEventListener('click', () => assignCharacterToRole(roleDiv));
-      menu.appendChild(item);
+  function randomFrom(arr) {
+    return arr[Math.floor(Math.random() * arr.length)];
+  }
+
+  function showCards(chars) {
+    const container = $('cards');
+    container.innerHTML = "";
+    chars.forEach(char => {
+      const card = document.createElement("div");
+      card.className = "card";
+      
+      // Glow logic
+      if (char.bounty && parseInt(char.bounty.replace(/\D/g,'')) > 2500000000 
+          && char.devil_fruit && char.conqueror_haki) {
+        card.style.boxShadow = `0 0 20px 5px var(--glow-conqueror)`;
+      } else if (char.conqueror_haki) {
+        card.style.boxShadow = `0 0 20px 5px var(--glow-conqueror)`;
+      } else if (char.bounty && parseInt(char.bounty.replace(/\D/g,'')) > 2500000000 
+                && char.devil_fruit) {
+        card.style.boxShadow = `0 0 20px 5px var(--glow-both)`;
+      } else if (char.bounty && parseInt(char.bounty.replace(/\D/g,'')) > 2500000000) {
+        card.style.boxShadow = `0 0 20px 5px var(--glow-bounty)`;
+      } else if (char.devil_fruit) {
+        card.style.boxShadow = `0 0 20px 5px var(--glow-devil)`;
+      }
+
+      // Card HTML
+      card.innerHTML = `
+        <img class="hero" src="${char.image}" alt="${char.name}">
+        <div class="content">
+          <h1>${char.name}</h1>
+          <div class="meta">${char.crew || '—'}</div>
+          
+          <!-- One Piece styled attributes -->
+          <div class="attributes">
+            <div class="pill">🏴‍☠️ ${char.role || '—'}</div>
+            <div class="pill">💰 ${char.bounty ? char.bounty : '—'}</div>
+            <div class="pill">🍇 ${char.devil_fruit ?? '—'}</div>
+          </div>
+          
+          <!-- Aliases (kept as separate row) -->
+          <div class="aliases">
+            <span>${(char.aliases && char.aliases.length) ? char.aliases.join(', ') : '—'}</span>
+          </div>
+        </div>
+      `;
+      card.addEventListener('click', (e) => showRoleMenu(e, char));
+      container.appendChild(card);
+    });
+  }
+
+  function updateCounter() {
+    const used = totalCharacters - pool.length;
+    $('counter').textContent = `${used} / ${totalCharacters}`;
+  }
+
+  $('randomBtn').addEventListener('click', () => {
+    showCards([randomFrom(data)]);
+  });
+
+  $('noRepeatBtn').addEventListener('click', () => {
+    if (pool.length === 0) {
+      alert("Tutti i personaggi sono stati mostrati! Si ricomincia.");
+      pool = [...data];
+    }
+    const idx = Math.floor(Math.random() * pool.length);
+    const pick = pool.splice(idx, 1)[0];
+    showCards([pick]);
+    updateCounter();
+  });
+
+  function showRoleMenu(e, char) {
+    currentChar = char;
+    const menu = $('roleMenu');
+    menu.innerHTML = '';
+    const team = currentPlayer === 1 ? 'team1' : 'team2';
+    const roles = Array.from($(team).querySelectorAll('.role'));
+    roles.forEach(roleDiv => {
+      if (roleDiv.textContent.endsWith('—')) {
+        const item = document.createElement('div');
+        item.textContent = roleDiv.dataset.role;
+        item.addEventListener('click', () => assignCharacterToRole(roleDiv));
+        menu.appendChild(item);
+      }
+    });
+    menu.style.display = 'block';
+    menu.style.top = e.clientY + 'px';
+    menu.style.left = e.clientX + 'px';
+  }
+
+  function assignCharacterToRole(roleDiv) {
+    roleDiv.textContent = `${roleDiv.dataset.role}: ${currentChar.name}`;
+    $('roleMenu').style.display = 'none';
+    currentPlayer = currentPlayer === 1 ? 2 : 1;
+  }
+
+  document.addEventListener('click', (e) => {
+    if (!e.target.closest('.card') && !e.target.closest('#roleMenu')) {
+      $('roleMenu').style.display = 'none';
     }
   });
-  menu.style.display = 'block';
-  menu.style.top = e.clientY + 'px';
-  menu.style.left = e.clientX + 'px';
-}
 
-function assignCharacterToRole(roleDiv) {
-  roleDiv.textContent = `${roleDiv.dataset.role}: ${currentChar.name}`;
-  $('roleMenu').style.display = 'none';
-  currentPlayer = currentPlayer === 1 ? 2 : 1;
-}
+  load();
+  </script>
 
-document.addEventListener('click', (e) => {
-  if (!e.target.closest('.card') && !e.target.closest('#roleMenu')) {
-    $('roleMenu').style.display = 'none';
-  }
-});
-
-load();
-</script>
-
-</body>
-</html>
+  </body>
+  </html>
