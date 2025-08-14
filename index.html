@@ -15,6 +15,9 @@
   --pill-cap: #ff4f4f;
   --pill-vice: #4f94ff;
   --pill-fighter: #4fff7f;
+  --glow-bounty: rgba(255,215,0,0.6);
+  --glow-devil: rgba(255,0,255,0.6);
+  --glow-both: rgba(0,255,255,0.6);
 }
 
 body { 
@@ -44,7 +47,7 @@ body {
   box-shadow: 0 10px 30px rgba(0,0,0,.6); 
   overflow: hidden; 
   cursor: pointer; 
-  transition: transform 0.3s, box-shadow 0.3s, filter 0.3s; 
+  transition: transform 0.3s, box-shadow 0.3s, filter 0.3s, box-shadow 0.3s;
 }
 .card:hover { 
   transform: translateY(-8px) scale(1.02); 
@@ -205,8 +208,27 @@ button.secondary {
   background: var(--primary); 
   color: white; 
 }
-</style>
 
+.legend { 
+  display: flex; 
+  gap: 12px; 
+  margin-top: 12px; 
+  font-size: 13px; 
+}
+.legend div { 
+  display: flex; 
+  align-items: center; 
+  gap: 4px; 
+}
+.legend span { 
+  width: 16px; 
+  height: 16px; 
+  display: inline-block; 
+  border-radius: 50%; 
+}
+.glow-bounty { background: var(--glow-bounty); }
+.glow-devil { background: var(--glow-devil); }
+.glow-both { background: var(--glow-both); }
 </style>
 </head>
 <body>
@@ -221,23 +243,29 @@ button.secondary {
 <div class="teams">
   <div class="team" id="team1">
     <h2>Giocatore 1</h2>
-    <div class="role" data-role="Capitano">Capitano: —</div>
-    <div class="role" data-role="Vice Capitano">Vice Capitano: —</div>
-    <div class="role" data-role="Primo Combattente">Primo Combattente: —</div>
-    <div class="role" data-role="Secondo Combattente">Secondo Combattente: —</div>
-    <div class="role" data-role="Terzo Combattente">Terzo Combattente: —</div>
+    <div class="role capitano" data-role="Capitano">Capitano: —</div>
+    <div class="role vice" data-role="Vice Capitano">Vice Capitano: —</div>
+    <div class="role combattente" data-role="Primo Combattente">Primo Combattente: —</div>
+    <div class="role combattente" data-role="Secondo Combattente">Secondo Combattente: —</div>
+    <div class="role combattente" data-role="Terzo Combattente">Terzo Combattente: —</div>
   </div>
   <div class="team" id="team2">
     <h2>Giocatore 2</h2>
-    <div class="role" data-role="Capitano">Capitano: —</div>
-    <div class="role" data-role="Vice Capitano">Vice Capitano: —</div>
-    <div class="role" data-role="Primo Combattente">Primo Combattente: —</div>
-    <div class="role" data-role="Secondo Combattente">Secondo Combattente: —</div>
-    <div class="role" data-role="Terzo Combattente">Terzo Combattente: —</div>
+    <div class="role capitano" data-role="Capitano">Capitano: —</div>
+    <div class="role vice" data-role="Vice Capitano">Vice Capitano: —</div>
+    <div class="role combattente" data-role="Primo Combattente">Primo Combattente: —</div>
+    <div class="role combattente" data-role="Secondo Combattente">Secondo Combattente: —</div>
+    <div class="role combattente" data-role="Terzo Combattente">Terzo Combattente: —</div>
   </div>
 </div>
 
 <div class="role-menu" id="roleMenu"></div>
+
+<div class="legend">
+  <div><span class="glow-bounty"></span>Bounty > 2.5B</div>
+  <div><span class="glow-devil"></span>Possiede Devil Fruit</div>
+  <div><span class="glow-both"></span>Entrambi</div>
+</div>
 
 <div class="footer">One Piece fan project — solo per uso personale</div>
 
@@ -269,6 +297,16 @@ function showCards(chars) {
   chars.forEach(char => {
     const card = document.createElement("div");
     card.className = "card";
+    
+    // Aggiunge glow in base a bounty/devil fruit
+    if(char.bounty && parseInt(char.bounty.replace(/\D/g,'')) > 2500000000 && char.devil_fruit){
+      card.style.boxShadow = `0 0 20px 5px var(--glow-both)`;
+    } else if(char.bounty && parseInt(char.bounty.replace(/\D/g,'')) > 2500000000){
+      card.style.boxShadow = `0 0 20px 5px var(--glow-bounty)`;
+    } else if(char.devil_fruit){
+      card.style.boxShadow = `0 0 20px 5px var(--glow-devil)`;
+    }
+
     card.innerHTML = `
       <img class="hero" src="${char.image}" alt="${char.name}">
       <div class="content">
