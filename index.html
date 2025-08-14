@@ -17,22 +17,46 @@
     --pill-fighter: #4fff7f;
     --glow-bounty: rgba(255,215,0,0.6);
     --glow-devil: rgba(255,0,255,0.6);
-    --glow-both: rgba(0,255,255,0.6);
+    --glow-both: rgba(0, 255, 255, 0.685);
     --glow-conqueror: rgba(255,0,0,0.6);
   }
 
-  body { 
-    margin: 0; 
-    background: linear-gradient(#001f3f, #005f73);
-    background-attachment: fixed;
-    color: #e9eefb; 
-    display: flex; 
-    flex-direction: column; 
-    align-items: center; 
-    min-height: 100dvh; 
-    padding: 20px; 
-    transition: background 0.3s;
-  }
+/* --- Page Background --- */
+body {
+  margin: 0;
+  font-family: 'Treasure Map Deadhand', cursive, sans-serif;
+  background: 
+    url('images/parchment-texture.jpg') center/cover no-repeat fixed, /* old paper */
+    linear-gradient(180deg, #87ceeb 0%, #1e3f66 100%); /* sky to ocean gradient */
+  background-blend-mode: multiply;
+  color: #3b2f1a;
+}
+
+/* Optional: add a subtle overlay of a map */
+body::before {
+  content: "";
+  position: fixed;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: url('images/one-piece-map.png') center/contain repeat;
+  opacity: 0.15;
+  z-index: -1;
+  pointer-events: none;
+}
+
+/* Scrollbar Styling (optional) */
+::-webkit-scrollbar {
+  width: 10px;
+}
+::-webkit-scrollbar-track {
+  background: rgba(245, 222, 179, 0.5);
+}
+::-webkit-scrollbar-thumb {
+  background: #b88b57;
+  border-radius: 5px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #a0713d;
+}
   .attributes {
     background: rgba(255, 224, 186, 0.18);
     border: 2px solid #c49a6c;
@@ -46,18 +70,14 @@
     justify-content: center;
   }
 
-  .attributes .pill {
-    background: linear-gradient(to bottom, #fdf3dc, #f2d7b4);
-    border: 2px solid #a67c52;
-    border-radius: 20px;
-    padding: 6px 12px;
-    font-size: 13px;
-    font-weight: bold;
-    font-family: 'Treasure Map Deadhand', serif; /* Optional pirate font */
-    color: #5a3e1b;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.25);
-    white-space: nowrap;
-  }
+.attributes .pill, .grid .pill {
+  font-family: 'Treasure Map Deadhand', cursive;
+  font-weight: bold;
+  background: linear-gradient(to bottom, #fef3c2, #f2d7b4);
+  border: 2px solid #b88b57;
+  color: #5a3e1b;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.25);
+}
 
   .attributes .pill:hover {
     transform: scale(1.05);
@@ -81,44 +101,112 @@
     margin-bottom: 20px; 
   }
 
-  .card { 
-    width: min(320px, 92vw); 
-    background: linear-gradient(145deg, #131938, var(--bg-card)); 
-    border-radius: 20px; 
-    box-shadow: 0 10px 30px rgba(0,0,0,.6); 
-    overflow: hidden; 
-    cursor: pointer; 
-    transition: transform 0.3s, box-shadow 0.3s, filter 0.3s, box-shadow 0.3s;
-  }
+.card {
+  position: relative;
+  overflow: visible;
+  width: min(320px, 92vw);
+  background: linear-gradient(145deg, #f4e0c3, #d9b98b); /* aged paper gradient */
+  border-radius: 20px;
+  box-shadow: 0 10px 30px rgba(0,0,0,.6);
+  cursor: pointer;
+  transition: transform 0.3s, box-shadow 0.3s, filter 0.3s;
+  font-family: 'Treasure Map Deadhand', cursive; /* pirate style font */
+  color: #3b2f1a;
+  border: 2px solid #b88b57;
+}
   .card:hover { 
     transform: translateY(-8px) scale(1.02); 
     box-shadow: 0 20px 50px rgba(0,0,0,.8); 
     filter: brightness(1.05);
   }
+  /* Conqueror's Haki Lightning Aura */
 
-  .hero { 
-    aspect-ratio: 16/9; 
-    width: 100%; 
-    object-fit: cover; 
-    background: #0a0f28; 
-  }
+/* Conqueror's Haki Lightning Aura - always visible */
+.card-conqueror {
+  position: relative; 
+  overflow: visible;
+  box-shadow: 0 0 35px 12px var(--glow-conqueror); /* stronger by default */
+  transition: transform 0.3s, box-shadow 0.3s, filter 0.3s;
+}
+.card-conqueror::before {
+  content: "";
+  position: absolute;
+  top: -30px;
+  left: -30px;
+  right: -30px;
+  bottom: -30px;
+  background: url('images/light.png') repeat;
+  background-size: contain;
+  z-index: -1;
+  pointer-events: none;
+  filter: brightness(1.5) blur(2px);
+  opacity: 0.8;
+  animation: flashAura 1s infinite;
+}
 
-  .content { 
-    padding: 20px 22px 24px; 
-  }
+@keyframes flashAura {
+  0%   { opacity: 0.7; }
+  10%  { opacity: 1; }
+  20%  { opacity: 0.4; }
+  30%  { opacity: 0.8; }
+  40%  { opacity: 0.5; }
+  50%  { opacity: 1; }
+  60%  { opacity: 0.3; }
+  70%  { opacity: 0.9; }
+  80%  { opacity: 0.6; }
+  90%  { opacity: 1; }
+  100% { opacity: 0.7; }
+}
 
-  h1 { 
-    margin: 0 0 6px; 
-    font-size: 24px; 
-    color: var(--highlight); 
-    text-shadow: 0 2px 4px rgba(0,0,0,.7);
-  }
 
-  .meta { 
-    opacity: .8; 
-    font-size: 14px; 
-    margin-bottom: 12px; 
-  }
+
+/* Hover just makes it stronger and moves the card */
+.card-conqueror:hover {
+  transform: translateY(-8px) scale(1.02);
+  box-shadow: 0 0 35px 12px var(--glow-conqueror), 0 20px 50px rgba(0,0,0,.8);
+  filter: brightness(1.05);
+}
+
+
+
+/* Hero Image */
+.hero {
+  width: 100%; /* fill card width */
+  height: auto;
+  max-height: 380px; /* increased from your current value */
+  object-fit: contain; /* keeps proportions without cropping */
+  display: block;
+  margin: 0 auto;
+  border: 4px solid #8B4513; /* pirate poster frame look */
+  border-radius: 10px;
+  box-shadow: 0 0 20px rgba(0,0,0,0.5);
+}
+
+
+ .content {
+  padding: 20px 22px 24px;
+  background: rgba(255, 248, 220, 0.85); /* slightly transparent parchment look */
+  border-radius: 0 0 20px 20px;
+  box-shadow: inset 0 0 5px rgba(0,0,0,0.1);
+  border-top: 2px solid #b88b57;
+}
+
+h1 {
+  margin: 0 0 6px;
+  font-size: 26px;
+  color: #b84100; /* bold pirate red */
+  text-shadow: 2px 2px 0 #fef3c2, 0 0 6px rgba(0,0,0,.5);
+}
+
+.meta {
+  opacity: 0.9;
+  font-size: 14px;
+  font-style: italic;
+  color: #4b3621;
+  text-shadow: 1px 1px 0 #fff3c2;
+  margin-bottom: 10px;
+  text-align: center;
+}
 
   .grid { 
     display: grid; 
@@ -250,31 +338,48 @@
     color: white; 
   }
 
-  .legend {
-    margin-top: 20px;
-    text-align: center;
-    font-size: 14px;
-    color: var(--highlight);
-  }
+.legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 14px;
+  justify-content: center;
+  align-items: center;
+  font-family: 'One Piece', sans-serif;
+  font-size: 14px;
+  background: rgba(0,0,0,0.6);
+  padding: 10px 15px;
+  border: 3px solid #d4a373;
+  border-radius: 12px;
+  box-shadow: 0 0 10px rgba(0,0,0,0.5);
+  color: #ffd66b; /* 🌟 colore testo leggibile */
+  text-shadow: 1px 1px 2px #000; /* più contrasto */
+}
 
-  .legend h3 {
-    margin-bottom: 8px;
-    font-size: 16px;
-    text-decoration: underline;
-  }
+.legend h3 {
+  margin: 0 100% 8px 0;
+  font-size: 16px;
+  text-decoration: underline;
+  color: #ffeb9c; /* leggermente più chiaro per il titolo */
+  text-shadow: 2px 2px 3px #000;
+}
 
-  .legend span {
-    display: inline-block;
-    width: 16px;
-    height: 16px;
-    border-radius: 50%;
-    margin-right: 6px;
-    vertical-align: middle;
-  }
-  .glow-bounty { background: var(--glow-bounty); }
-  .glow-devil { background: var(--glow-devil); }
-  .glow-both { background: var(--glow-both); }
-  .glow-conqueror { background: var(--glow-conqueror); }
+.legend-box {
+  display: inline-block;
+  width: 20px;
+  height: 20px;
+  border-radius: 4px;
+  margin-right: 6px;
+  box-shadow: 0 0 6px rgba(255,255,255,0.4);
+}
+
+.glow-bounty { background: gold; box-shadow: 0 0 10px gold; }
+.glow-devil { background: violet; box-shadow: 0 0 10px violet; }
+.glow-both { background: rgba(0, 255, 255, 0.685); box-shadow: 0 0 10px gold; }
+.glow-conqueror { background: red; box-shadow: 0 0 10px red; }
+.glow-lightning { 
+  background: url('images/light.png') center/cover no-repeat; 
+  border: 1px solid rgba(255,255,255,0.5);
+}
 
   </style>
   </head>
@@ -308,12 +413,13 @@
 
   <div class="role-menu" id="roleMenu"></div>
 
-  <div class="legend">
-    <div><span class="glow-bounty"></span>Bounty > 2.5B</div>
-    <div><span class="glow-devil"></span> Devil Fruit</div>
-    <div><span class="glow-both"></span>Both</div>
-    <div><span class="glow-conqueror"></span> Conqueror Haki</div>
-  </div>
+ <div class="legend">
+  <div><span class="legend-box glow-bounty"></span> Bounty > 2.5B</div>
+  <div><span class="legend-box glow-devil"></span> Devil Fruit</div>
+  <div><span class="legend-box glow-both"></span> Bounty + Devil Fruit</div>
+  <div><span class="legend-box glow-conqueror"></span> Conqueror’s Haki</div>
+</div>
+
 
   <div class="footer">One Piece fan project — solo per uso personale</div>
 
@@ -340,51 +446,49 @@
   }
 
   function showCards(chars) {
-    const container = $('cards');
-    container.innerHTML = "";
-    chars.forEach(char => {
-      const card = document.createElement("div");
-      card.className = "card";
-      
-      // Glow logic
-      if (char.bounty && parseInt(char.bounty.replace(/\D/g,'')) > 2500000000 
-          && char.devil_fruit && char.conqueror_haki) {
-        card.style.boxShadow = `0 0 20px 5px var(--glow-conqueror)`;
-      } else if (char.conqueror_haki) {
-        card.style.boxShadow = `0 0 20px 5px var(--glow-conqueror)`;
-      } else if (char.bounty && parseInt(char.bounty.replace(/\D/g,'')) > 2500000000 
-                && char.devil_fruit) {
-        card.style.boxShadow = `0 0 20px 5px var(--glow-both)`;
-      } else if (char.bounty && parseInt(char.bounty.replace(/\D/g,'')) > 2500000000) {
-        card.style.boxShadow = `0 0 20px 5px var(--glow-bounty)`;
-      } else if (char.devil_fruit) {
-        card.style.boxShadow = `0 0 20px 5px var(--glow-devil)`;
-      }
+  const container = $('cards');
+  container.innerHTML = "";
+  chars.forEach(char => {
+    const card = document.createElement("div");
+    card.className = "card";
 
-      // Card HTML
-      card.innerHTML = `
-        <img class="hero" src="${char.image}" alt="${char.name}">
-        <div class="content">
-          <h1>${char.name}</h1>
-          <div class="meta">${char.crew || '—'}</div>
-          
-          <!-- One Piece styled attributes -->
-          <div class="attributes">
-            <div class="pill">🏴‍☠️ ${char.role || '—'}</div>
-            <div class="pill">💰 ${char.bounty ? char.bounty : '—'}</div>
-            <div class="pill">🍇 ${char.devil_fruit ?? '—'}</div>
-          </div>
-          
-          <!-- Aliases (kept as separate row) -->
-          <div class="aliases">
-            <span>${(char.aliases && char.aliases.length) ? char.aliases.join(', ') : '—'}</span>
-          </div>
+    // Glow effects for bounty/devil fruit
+    if (char.bounty && parseInt(char.bounty.replace(/\D/g,'')) > 2500000000 
+        && char.devil_fruit && char.conqueror_haki) {
+          card.classList.add("conqueror");
+          card.classList.add("card-conqueror");; // 🔥 Add aura animation
+    } else if (char.conqueror_haki) {
+      card.classList.add("conqueror");
+      card.classList.add("card-conqueror"); // 🔥 Add aura animation
+    } else if (char.bounty && parseInt(char.bounty.replace(/\D/g,'')) > 2500000000 
+               && char.devil_fruit) {
+      card.style.boxShadow = `0 0 20px 5px var(--glow-both)`;
+    } else if (char.bounty && parseInt(char.bounty.replace(/\D/g,'')) > 2500000000) {
+      card.style.boxShadow = `0 0 20px 5px var(--glow-bounty)`;
+    } else if (char.devil_fruit) {
+      card.style.boxShadow = `0 0 20px 5px var(--glow-devil)`;
+    }
+
+    card.innerHTML = `
+      <img class="hero" src="${char.image}" alt="${char.name}">
+      <div class="content">
+        <h1>${char.name}</h1>
+        <div class="meta">${char.crew || '—'}</div>
+        <div class="grid">
+          <div class="pill">${char.role || '—'}</div>
+          <div class="pill">${char.bounty ? `Bounty: ${char.bounty}` : 'Bounty: —'}</div>
         </div>
-      `;
-      card.addEventListener('click', (e) => showRoleMenu(e, char));
-      container.appendChild(card);
-    });
-  }
+        <div class="grid">
+          <div class="pill">${(char.aliases && char.aliases.length) ? char.aliases.join(', ') : '—'}</div>
+          <div class="pill">Devil fruit: ${char.devil_fruit ?? '—'}</div>
+        </div>
+      </div>
+    `;
+
+    card.addEventListener('click', (e) => showRoleMenu(e, char));
+    container.appendChild(card);
+  });
+}
 
   function updateCounter() {
     const used = totalCharacters - pool.length;
