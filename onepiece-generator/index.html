@@ -1,0 +1,176 @@
+<!doctype html>
+<html lang="it">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>One Piece — Squadre</title>
+<style>
+  :root { font-family: system-ui, sans-serif; }
+  body { margin: 0; background: #0b1020; color: #e9eefb; display: flex; flex-direction: column; align-items: center; min-height: 100dvh; padding: 20px; }
+  .card-container { display: flex; gap: 20px; flex-wrap: wrap; justify-content: center; margin-bottom: 20px; }
+  .card { width: min(320px, 92vw); background: linear-gradient(145deg, #131938, #1a2040); border-radius: 20px; box-shadow: 0 10px 30px rgba(0,0,0,.6); overflow: hidden; cursor: pointer; transition: transform 0.2s, box-shadow 0.2s; }
+  .card:hover { transform: translateY(-5px); box-shadow: 0 15px 40px rgba(0,0,0,.8); }
+  .hero { aspect-ratio: 16/9; width: 100%; object-fit: contain; background: #0a0f28; }
+  .content { padding: 20px 22px 24px; }
+  h1 { margin: 0 0 6px; font-size: 22px; color: #ffdd57; }
+  .meta { opacity: .8; font-size: 14px; margin-bottom: 12px; }
+  .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin: 12px 0; }
+  .pill { background: #1e2650; padding: 8px 10px; border-radius: 999px; text-align: center; font-size: 13px; }
+  .pill:hover { background: #2b356f; }
+  .actions { display: flex; gap: 12px; margin-bottom: 12px; flex-wrap: wrap; justify-content: center; }
+  button { cursor: pointer; border: 0; border-radius: 999px; padding: 12px 16px; font-weight: 700; background: #4f74ff; color: white; transition: background 0.2s; }
+  button:hover { background: #627fff; }
+  button.secondary { background: #2b356f; }
+  #counter { margin-top: 8px; font-size: 14px; opacity: .8; text-align: center; }
+  .footer { opacity: .6; font-size: 12px; text-align: center; padding: 10px 0 18px; }
+  .teams { display: flex; gap: 40px; margin-top: 20px; flex-wrap: wrap; justify-content: center; }
+  .team { background: linear-gradient(145deg, #131938, #1a2040); padding: 12px 16px; border-radius: 16px; width: 300px; box-shadow: 0 8px 20px rgba(0,0,0,.5); }
+  .team h2 { margin-top: 0; text-align: center; color: #ff6f61; }
+  .role { margin: 6px 0; padding: 6px 10px; background: #1e2650; border-radius: 8px; font-size: 14px; cursor: pointer; display: flex; justify-content: space-between; align-items: center; transition: background 0.2s; }
+  .role:hover { background: #2b356f; }
+  .role span { font-weight: 700; color: #ffdd57; }
+  .selected { background: #4f74ff !important; }
+  .role-menu { position: absolute; background: #1a2040; border: 1px solid #4f74ff; border-radius: 10px; padding: 6px; display: none; z-index: 10; }
+  .role-menu div { padding: 6px 10px; cursor: pointer; border-radius: 6px; }
+  .role-menu div:hover { background: #4f74ff; color: white; }
+</style>
+</head>
+<body>
+
+<div class="actions">
+  <button id="randomBtn">🎲 Random</button>
+  <button id="noRepeatBtn" class="secondary">🔁 No ripetizioni</button>
+</div>
+<div id="counter">0 / 0</div>
+<div class="card-container" id="cards"></div>
+
+<div class="teams">
+  <div class="team" id="team1">
+    <h2>Giocatore 1</h2>
+    <div class="role" data-role="Capitano">Capitano: —</div>
+    <div class="role" data-role="Vice Capitano">Vice Capitano: —</div>
+    <div class="role" data-role="Primo Combattente">Primo Combattente: —</div>
+    <div class="role" data-role="Secondo Combattente">Secondo Combattente: —</div>
+    <div class="role" data-role="Terzo Combattente">Terzo Combattente: —</div>
+  </div>
+  <div class="team" id="team2">
+    <h2>Giocatore 2</h2>
+    <div class="role" data-role="Capitano">Capitano: —</div>
+    <div class="role" data-role="Vice Capitano">Vice Capitano: —</div>
+    <div class="role" data-role="Primo Combattente">Primo Combattente: —</div>
+    <div class="role" data-role="Secondo Combattente">Secondo Combattente: —</div>
+    <div class="role" data-role="Terzo Combattente">Terzo Combattente: —</div>
+  </div>
+</div>
+
+<div class="role-menu" id="roleMenu"></div>
+
+<div class="footer">One Piece fan project — The Pirates Of Spekito The Clown</div>
+
+<script>
+let data = [];
+let pool = [];
+let totalCharacters = 0;
+let currentPlayer = 1;
+const team1 = {};
+const team2 = {};
+let currentChar = null;
+
+const $ = (id) => document.getElementById(id);
+
+async function load() {
+  const res = await fetch('characters.json');
+  data = await res.json();
+  totalCharacters = data.length;
+  pool = [...data];
+  showCards([randomFrom(data)]);
+  updateCounter();
+}
+
+function randomFrom(arr) {
+  return arr[Math.floor(Math.random() * arr.length)];
+}
+
+function showCards(chars) {
+  const container = $('cards');
+  container.innerHTML = "";
+  chars.forEach(char => {
+    const card = document.createElement("div");
+    card.className = "card";
+    card.innerHTML = `
+      <img class="hero" src="${char.image}" alt="${char.name}">
+      <div class="content">
+        <h1>${char.name}</h1>
+        <div class="meta">${char.crew || '—'}</div>
+        <div class="grid">
+          <div class="pill">${char.role || '—'}</div>
+          <div class="pill">${char.bounty ? `Bounty: ${char.bounty}` : 'Bounty: —'}</div>
+        </div>
+        <div class="grid">
+          <div class="pill">${(char.aliases && char.aliases.length) ? char.aliases.join(', ') : '—'}</div>
+          <div class="pill">Devil fruit: ${char.devil_fruit ?? '—'}</div>
+        </div>
+      </div>
+    `;
+    card.addEventListener('click', (e) => showRoleMenu(e, char));
+    container.appendChild(card);
+  });
+}
+
+function updateCounter() {
+  const used = totalCharacters - pool.length;
+  $('counter').textContent = `${used} / ${totalCharacters}`;
+}
+
+$('randomBtn').addEventListener('click', () => {
+  showCards([randomFrom(data)]);
+});
+
+$('noRepeatBtn').addEventListener('click', () => {
+  if (pool.length === 0) {
+    alert("Tutti i personaggi sono stati mostrati! Si ricomincia.");
+    pool = [...data];
+  }
+  const idx = Math.floor(Math.random() * pool.length);
+  const pick = pool.splice(idx, 1)[0];
+  showCards([pick]);
+  updateCounter();
+});
+
+function showRoleMenu(e, char) {
+  currentChar = char;
+  const menu = $('roleMenu');
+  menu.innerHTML = '';
+  const teamElement = currentPlayer === 1 ? $('team1') : $('team2');
+  const emptyRoles = Array.from(teamElement.querySelectorAll('.role'))
+    .filter(div => div.textContent.endsWith('—'));
+
+  emptyRoles.forEach(div => {
+    const roleDiv = document.createElement('div');
+    roleDiv.textContent = div.dataset.role;
+    roleDiv.addEventListener('click', () => assignCharacterToRole(div));
+    menu.appendChild(roleDiv);
+  });
+
+  menu.style.display = 'block';
+  menu.style.left = e.pageX + 'px';
+  menu.style.top = e.pageY + 'px';
+}
+
+document.addEventListener('click', e => {
+  if (!e.target.closest('.card') && !e.target.closest('#roleMenu')) {
+    $('roleMenu').style.display = 'none';
+  }
+});
+
+function assignCharacterToRole(roleDiv) {
+  roleDiv.textContent = `${roleDiv.dataset.role}: ${currentChar.name}`;
+  roleDiv.classList.add('selected');
+  currentPlayer = currentPlayer === 1 ? 2 : 1;
+  $('roleMenu').style.display = 'none';
+}
+
+load();
+</script>
+</body>
+</html>
