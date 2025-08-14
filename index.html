@@ -297,6 +297,7 @@ h1 {
 
   .role { 
     margin: 8px 0; 
+    background-color: #4f74ff;
     padding: 10px 12px; 
     border-radius: 12px; 
     font-size: 14px; 
@@ -310,7 +311,7 @@ h1 {
   .role.vice { background: var(--pill-vice); color: rgb(246, 209, 255); }
   .role.combattente { background: var(--pill-fighter); color: #ffc7ff; }
   .role:hover { 
-    opacity: 0.85; 
+    opacity: 0.5; 
     transform: scale(1.02);
   }
   .selected { 
@@ -319,7 +320,7 @@ h1 {
 
   .role-menu { 
     position: absolute; 
-    background: var(#c2a1eb); 
+    background: #e8dcfd; /* solid background */
     border: 1px solid var(--primary); 
     border-radius: 12px; 
     padding: 8px; 
@@ -327,7 +328,8 @@ h1 {
     z-index: 10; 
     box-shadow: 0 8px 20px rgba(255, 32, 225, 0.7);
     transition: opacity 0.5s ease;
-  }
+}
+
   .role-menu div { 
     padding: 8px 12px; 
     cursor: pointer; 
