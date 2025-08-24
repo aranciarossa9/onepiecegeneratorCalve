@@ -490,6 +490,111 @@
     "devil_fruit": null,
     "conqueror_haki": true,
     "image": "images/garp.jpg"
+  },
+  {
+  "id": 49,
+  "name": "Bartholomew Kuma",
+  "aliases": ["Tyrant", "PX-0"],
+  "crew": "Revolutionary Army / Seven Warlords of the Sea",
+  "role": "Pacifista / Former Warlord",
+  "devil_fruit": "Nikyu Nikyu no Mi",
+  "bounty": "296,000,000",
+  "image": "images/kuma.jpg",
+  "conqueror_haki": false
+},
+{
+  "id": 50,
+  "name": "Gecko Moria",
+  "aliases": [],
+  "crew": "Thriller Bark Pirates / Former Warlords of the Sea",
+  "role": "Captain",
+  "devil_fruit": "Kage Kage no Mi",
+  "bounty": "320,000,000",
+  "image": "images/moria.jpg",
+  "conqueror_haki": false
+},
+{
+  "id": 51,
+  "name": "Urouge",
+  "aliases": ["Mad Monk"],
+  "crew": "Fallen Monk Pirates",
+  "role": "Captain",
+  "devil_fruit": "Unnamed Paramecia (converts damage taken into strength)",
+  "bounty": "408,000,000",
+  "image": "images/urouge.jpg",
+  "conqueror_haki": false
+},
+{
+  "id": 52,
+  "name": "Killer",
+  "aliases": ["Massacre Soldier", "Kamazo the Manslayer"],
+  "crew": "Kid Pirates",
+  "role": "Combatant",
+  "devil_fruit": null,
+  "bounty": "200,000,000",
+  "image": "images/killer.jpg",
+  "conqueror_haki": false
+},
+{
+  "id": 53,
+  "name": "Scratchmen Apoo",
+  "aliases": ["Roar of the Sea"],
+  "crew": "On Air Pirates (former informant of Beasts Pirates)",
+  "role": "Captain",
+  "devil_fruit": "Oto Oto no Mi (Tone-Tone Fruit)",
+  "bounty": "350,000,000",
+  "image": "images/apoo.jpg",
+  "conqueror_haki": false
+},  {
+    "id": 54,
+    "name": "X Drake",
+    "aliases": ["Red Flag"],
+    "crew": "Drake Pirates",
+    "role": "Captain",
+    "devil_fruit": "Ryu Ryu no Mi, Model: Allosaurus",
+    "bounty": null,
+    "image": "images/xdrake.jpg"
+  },
+  {
+    "id": 55,
+    "name": "Aokiji (Kuzan)",
+    "aliases": ["Former Admiral"],
+    "crew": "Marines (former Admiral)",
+    "role": "Admiral",
+    "devil_fruit": "Hie Hie no Mi",
+    "bounty": null,
+    "image": "images/aokiji.jpg"
+  },
+  {
+    "id": 56,
+    "name": "Vergo",
+    "aliases": ["Demon Bamboo"],
+    "crew": "Donquixote Pirates",
+    "role": "Elite Officer / Vice Admiral (imposter)",
+    "devil_fruit": null,
+    "bounty": null,
+    "image": "images/vergo.jpg"
+  },
+  {
+    "id": 57,
+    "name": "Monet",
+    "aliases": [],
+    "crew": "Donquixote Pirates",
+    "role": "Scout / Incognito Agent",
+    "devil_fruit": null,
+    "bounty": null,
+    "image": "images/monet.jpg"
+  },
+  {
+    "id": 58,
+    "name": "Monkey D. Dragon",
+    "aliases": ["Rebellious Dragon"],
+    "crew": "Revolutionary Army",
+    "role": "Supreme Commander",
+    "devil_fruit": null,
+    "bounty": "Unknown",
+    "image": "images/dragon.jpg"
   }
+
 ]
 
