@@ -425,17 +425,32 @@ h1 {
   100% { transform: translate(-50%, -50%) scale(1) rotate(0deg); }
 }
 /* ===== Arena Mode ===== */
+
 #arenaOverlay {
   display: none; /* toggled by JS */
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
   flex-direction: column;
-  justify-content: flex-start; /* start at top on small screens */
+  justify-content: center; /* center vertically */
   align-items: center;
   gap: 24px;
-  padding: 16px;
+  padding: 24px;
+  width: min(960px, 90vw);
+  max-height: 90vh;
   overflow-y: auto;
-  background: rgba(0,0,0,0.95);
+  background: linear-gradient(135deg, #1f1f2e, #2c2c44);
+  border: 3px solid #ffdd57;
+  border-radius: 20px;
+  box-shadow: 0 0 40px rgba(255, 221, 87, 0.5), inset 0 0 20px rgba(255, 215, 0, 0.2);
+  color: #fff;
+  font-family: 'Treasure Map Deadhand', cursive;
   z-index: 10000;
+  text-align: center;
+  transition: transform 0.4s ease, opacity 0.4s ease;
 }
+
 
 
 #arenaTop{
@@ -473,7 +488,7 @@ h1 {
 
 .duel-container {
   display: flex;
-  flex-direction: column; /* stack sides on mobile */
+  flex-direction: column;
   align-items: center;
   gap: 24px;
   text-align: center;
@@ -481,22 +496,43 @@ h1 {
 
 @media(min-width: 600px) {
   .duel-container {
-    flex-direction: row; /* side by side on tablets+ */
+    flex-direction: row;
     gap: 48px;
   }
 }
 
-.duel-side{ cursor:pointer; }
+.duel-side {
+  cursor: pointer;
+  transition: transform 0.2s, box-shadow 0.2s;
+  border-radius: 16px;
+  background: linear-gradient(145deg, #3b3b5c, #202040);
+  padding: 8px;
+  box-shadow: 0 6px 18px rgba(0,0,0,0.5);
+}
+
 .duel-side img {
-  width: 60vw; /* responsive width */
-  max-width: 220px; /* keep a maximum */
+  width: 60vw;
+  max-width: 220px;
   height: auto;
+  border-radius: 12px;
+  border: 2px solid #ffdd57;
 }
-@media(min-width: 600px) {
-  .duel-side img {
-    width: min(26vw, 220px); /* original for larger screens */
-  }
+
+.duel-side:hover {
+  transform: scale(1.08);
+  box-shadow: 0 0 28px rgba(255, 221, 87, 0.8);
+  filter: brightness(1.1);
 }
+
+.duel-role {
+  font-size: 28px;
+  font-weight: 900;
+  color: #ffdd57;
+  text-shadow: 0 0 12px #000, 0 0 20px #ffbb00;
+  white-space: nowrap;
+  margin: 0 12px;
+}
+
 .duel-side img:hover{
   transform:scale(1.06);
   box-shadow:0 0 22px rgba(255,215,0,.8);
@@ -510,24 +546,25 @@ h1 {
   text-shadow:0 0 6px #000;
 }
 
-.duel-role{
-  font-size:28px;
-  font-weight:900;
-  color:#ffdd57;
-  text-shadow:0 0 10px #000, 0 0 20px #a36d00;
-  white-space:nowrap;
+.arena-btn {
+  cursor: pointer;
+  border: 0;
+  border-radius: 12px;
+  padding: 14px 24px;
+  font-weight: 800;
+  background: linear-gradient(135deg, #ffcc33, #ffaa00);
+  color: #1b1b2f;
+  font-size: 16px;
+  box-shadow: 0 6px 16px rgba(255, 170, 0, 0.6);
+  transition: all 0.2s;
 }
 
-.arena-btn{
-  cursor:pointer;
-  border:0; border-radius:999px;
-  padding:12px 20px;
-  font-weight:800;
-  background:var(--primary);
-  color:#fff;
-  box-shadow:0 8px 20px rgba(0,0,0,.35);
+.arena-btn:hover {
+  transform: scale(1.05);
+  box-shadow: 0 0 24px rgba(255, 221, 87, 0.9);
+  filter: brightness(1.15);
 }
-.arena-btn:hover{ filter:brightness(1.1); }
+
 
 #arenaBottom{ margin-top:8px; 
 width: 100%; /* full width on small screens */
@@ -764,9 +801,19 @@ function startArenaAfterVS() {
   if (!duels.length) return;
 
   arenaState = { duels, idx: 0, score1: 0, score2: 0 };
-  $('arenaOverlay').style.display = 'flex';
+  const overlay = $('arenaOverlay');
+  overlay.style.opacity = 0;
+  overlay.style.display = 'flex';
+  
   renderArenaDuel();
+
+  // Fade in
+  setTimeout(() => {
+    overlay.style.transition = 'opacity 0.5s';
+    overlay.style.opacity = 1;
+  }, 50);
 }
+
 
 function renderArenaDuel() {
   const d = arenaState.duels[arenaState.idx];
