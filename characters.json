@@ -510,7 +510,7 @@
   "role": "Captain",
   "devil_fruit": "Kage Kage no Mi",
   "bounty": "320,000,000",
-  "image": "images/moria.jpg",
+  "image": "images/moria.webp",
   "conqueror_haki": false
 },
 {
@@ -594,7 +594,30 @@
     "devil_fruit": null,
     "bounty": "Unknown",
     "image": "images/dragon.jpg"
-  }
+  },
+  {
+  "id": 59,
+  "name": "Caesar Clown",
+  "aliases": ["Master", "Gas Gas Man"],
+  "crew": "Scienziato indipendente (ex MADS)",
+  "role": "Scienziato / Antagonista",
+  "devil_fruit": "Gasu Gasu no Mi",
+  "bounty": "300,000,000",
+  "image": "images/caesar.webp",
+  "conqueror_haki": false
+},
+{
+  "id": 60,
+  "name": "Marco la Fenice",
+  "aliases": ["Marco", "Phoenix"],
+  "crew": "Whitebeard Pirates",
+  "role": "Primo Comandante",
+  "devil_fruit": "Tori Tori no Mi, Modello: Fenice",
+  "bounty": "1,374,000,000",
+  "image": "images/marco.jpg",
+  "conqueror_haki": false
+}
+
 
 ]
 
