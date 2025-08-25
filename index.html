@@ -580,6 +580,7 @@ width: 100%; /* full width on small screens */
   <div class="actions">
     <button id="randomBtn">🎲 Random</button>
     <button id="noRepeatBtn" class="secondary">🔁 No ripetizioni</button>
+    
   </div>
   <div id="counter">0 / 0</div>
   <div class="card-container" id="cards"></div>
@@ -637,50 +638,160 @@ width: 100%; /* full width on small screens */
     return arr[Math.floor(Math.random() * arr.length)];
   }
 
-  function showCards(chars) {
+// cache per evitare controlli ripetuti
+const _webpExistenceCache = {};
+
+// controlla se webp esiste (tramite caricamento immagine, risolve true/false)
+function checkWebpExists(webpPath) {
+  return new Promise((resolve) => {
+    if (_webpExistenceCache.hasOwnProperty(webpPath)) {
+      return resolve(_webpExistenceCache[webpPath]);
+    }
+    const t = new Image();
+    t.onload = () => { _webpExistenceCache[webpPath] = true; resolve(true); };
+    t.onerror = () => { _webpExistenceCache[webpPath] = false; resolve(false); };
+    // inizio richiesta
+    t.src = webpPath + (webpPath.includes('?') ? '&' : '?') + 'v=1'; // cache-buster facoltativo
+  });
+}
+
+// crea elemento immagine responsivo: usa .webp solo se esiste, altrimenti il path originale
+async function createResponsiveImage(imgPath, alt = '', cls = '') {
+  const webpPath = imgPath.replace(/\.(jpg|jpeg|png)$/i, '.webp');
+  const hasWebp = await checkWebpExists(webpPath);
+
+  if (hasWebp) {
+    const picture = document.createElement('picture');
+
+    const source = document.createElement('source');
+    source.srcset = webpPath;
+    source.type = 'image/webp';
+
+    const img = document.createElement('img');
+    if (cls) img.className = cls;
+    img.src = webpPath;
+    img.alt = alt;
+    img.loading = 'lazy';
+
+    picture.appendChild(source);
+    picture.appendChild(img);
+    return picture;
+  } else {
+    const img = document.createElement('img');
+    if (cls) img.className = cls;
+    img.src = imgPath;
+    img.alt = alt;
+    img.loading = 'lazy';
+    return img;
+  }
+}
+
+// showCards ora è async e crea i nodi DOM — incolla al posto della tua versione corrente
+async function showCards(chars) {
   const container = $('cards');
   container.innerHTML = "";
-  chars.forEach(char => {
+  for (const char of chars) {
     const card = document.createElement("div");
     card.className = "card";
 
-    // Glow effects for bounty/devil fruit
-    if (char.bounty && parseInt(char.bounty.replace(/\D/g,'')) > 2500000000 
+    // Glow effects (stesso tuo codice)
+    if (char.bounty && parseInt(String(char.bounty).replace(/\D/g,'')) > 2500000000 
         && char.devil_fruit && char.conqueror_haki) {
-          card.classList.add("conqueror");
-          card.classList.add("card-conqueror");; // 🔥 Add aura animation
+      card.classList.add("conqueror", "card-conqueror");
     } else if (char.conqueror_haki) {
-      card.classList.add("conqueror");
-      card.classList.add("card-conqueror"); // 🔥 Add aura animation
-    } else if (char.bounty && parseInt(char.bounty.replace(/\D/g,'')) > 2500000000 
+      card.classList.add("conqueror", "card-conqueror");
+    } else if (char.bounty && parseInt(String(char.bounty).replace(/\D/g,'')) > 2500000000 
                && char.devil_fruit) {
       card.style.boxShadow = `0 0 20px 5px var(--glow-both)`;
-    } else if (char.bounty && parseInt(char.bounty.replace(/\D/g,'')) > 2500000000) {
+    } else if (char.bounty && parseInt(String(char.bounty).replace(/\D/g,'')) > 2500000000) {
       card.style.boxShadow = `0 0 20px 5px var(--glow-bounty)`;
     } else if (char.devil_fruit) {
       card.style.boxShadow = `0 0 20px 5px var(--glow-devil)`;
     }
 
-    card.innerHTML = `
-      <img class="hero" src="${char.image}" alt="${char.name}">
-      <div class="content">
-        <h1>${char.name}</h1>
-        <div class="meta">${char.crew || '—'}</div>
-        <div class="grid">
-          <div class="pill">${char.role || '—'}</div>
-          <div class="pill">${char.bounty ? `Bounty: ${char.bounty}` : 'Bounty: —'}</div>
-        </div>
-        <div class="grid">
-          <div class="pill">${(char.aliases && char.aliases.length) ? char.aliases.join(', ') : '—'}</div>
-          <div class="pill">Devil fruit: ${char.devil_fruit ?? '—'}</div>
-        </div>
+    // crea immagine responsiva (usa webp se esiste)
+    const imgEl = await createResponsiveImage(char.image, char.name, 'hero');
+
+    // crea il contenuto testuale (usa innerHTML per semplicità)
+    const content = document.createElement('div');
+    content.className = 'content';
+    content.innerHTML = `
+      <h1>${char.name}</h1>
+      <div class="meta">${char.crew || '—'}</div>
+      <div class="grid">
+        <div class="pill">${char.role || '—'}</div>
+        <div class="pill">${char.bounty ? `Bounty: ${char.bounty}` : 'Bounty: —'}</div>
+      </div>
+      <div class="grid">
+        <div class="pill">${(char.aliases && char.aliases.length) ? char.aliases.join(', ') : '—'}</div>
+        <div class="pill">Devil fruit: ${char.devil_fruit ?? '—'}</div>
       </div>
     `;
 
+    card.appendChild(imgEl);
+    card.appendChild(content);
+
     card.addEventListener('click', (e) => showRoleMenu(e, char));
     container.appendChild(card);
-  });
+  }
 }
+
+// renderArenaDuel diventa async (viene chiamata senza await ma funziona)
+async function renderArenaDuel() {
+  const d = arenaState.duels[arenaState.idx];
+
+  // Top bar
+  $('arenaDuelCounter').textContent =
+    `Duello ${arenaState.idx + 1} / ${arenaState.duels.length}`;
+  $('arenaScore').textContent =
+    `Giocatore 1 ${arenaState.score1} — ${arenaState.score2} Giocatore 2`;
+
+  // svuota e costruisci con DOM
+  const wrapper = $('duelWrapper');
+  wrapper.innerHTML = ""; // svuota
+
+  const duelContainer = document.createElement('div');
+  duelContainer.className = 'duel-container';
+
+  // lato 1
+  const pick1 = document.createElement('div');
+  pick1.className = 'duel-side';
+  pick1.id = 'pick1';
+  const img1 = await createResponsiveImage(d.char1.image, d.char1.name);
+  const name1 = document.createElement('div');
+  name1.className = 'char-name';
+  name1.textContent = d.char1.name;
+  pick1.appendChild(img1);
+  pick1.appendChild(name1);
+
+  // ruolo (al centro)
+  const roleDiv = document.createElement('div');
+  roleDiv.className = 'duel-role';
+  roleDiv.innerHTML = `⚔️ ${d.role} ⚔️`;
+
+  // lato 2
+  const pick2 = document.createElement('div');
+  pick2.className = 'duel-side';
+  pick2.id = 'pick2';
+  const img2 = await createResponsiveImage(d.char2.image, d.char2.name);
+  const name2 = document.createElement('div');
+  name2.className = 'char-name';
+  name2.textContent = d.char2.name;
+  pick2.appendChild(img2);
+  pick2.appendChild(name2);
+
+  duelContainer.appendChild(pick1);
+  duelContainer.appendChild(roleDiv);
+  duelContainer.appendChild(pick2);
+
+  wrapper.appendChild(duelContainer);
+
+  // eventi click
+  $('pick1').onclick = () => recordArenaWin(1);
+  $('pick2').onclick = () => recordArenaWin(2);
+  $('arenaClose').onclick = () => { $('arenaOverlay').style.display = 'none'; };
+}
+
 
   function updateCounter() {
     const used = totalCharacters - pool.length;
@@ -815,7 +926,7 @@ function startArenaAfterVS() {
 }
 
 
-function renderArenaDuel() {
+async function renderArenaDuel() {
   const d = arenaState.duels[arenaState.idx];
 
   // Top bar
@@ -824,21 +935,48 @@ function renderArenaDuel() {
   $('arenaScore').textContent =
     `Giocatore 1 ${arenaState.score1} — ${arenaState.score2} Giocatore 2`;
 
-  // Duel card
-  $('duelWrapper').innerHTML = `
-    <div class="duel-container">
-      <div class="duel-side" id="pick1">
-        <img src="${d.char1.image}" alt="${d.char1.name}">
-        <div class="char-name">${d.char1.name}</div>
-      </div>
-      <div class="duel-role">⚔️ ${d.role} ⚔️</div>
-      <div class="duel-side" id="pick2">
-        <img src="${d.char2.image}" alt="${d.char2.name}">
-        <div class="char-name">${d.char2.name}</div>
-      </div>
-    </div>
-  `;
+  // svuota contenitore
+  const wrapper = $('duelWrapper');
+  wrapper.innerHTML = "";
 
+  // contenitore principale
+  const duelContainer = document.createElement('div');
+  duelContainer.className = 'duel-container';
+
+  // lato 1
+  const pick1 = document.createElement('div');
+  pick1.className = 'duel-side';
+  pick1.id = 'pick1';
+  const img1 = await createResponsiveImage(d.char1.image, d.char1.name);
+  const name1 = document.createElement('div');
+  name1.className = 'char-name';
+  name1.textContent = d.char1.name;
+  pick1.appendChild(img1);
+  pick1.appendChild(name1);
+
+  // ruolo (al centro)
+  const roleDiv = document.createElement('div');
+  roleDiv.className = 'duel-role';
+  roleDiv.textContent = `⚔️ ${d.role} ⚔️`;
+
+  // lato 2
+  const pick2 = document.createElement('div');
+  pick2.className = 'duel-side';
+  pick2.id = 'pick2';
+  const img2 = await createResponsiveImage(d.char2.image, d.char2.name);
+  const name2 = document.createElement('div');
+  name2.className = 'char-name';
+  name2.textContent = d.char2.name;
+  pick2.appendChild(img2);
+  pick2.appendChild(name2);
+
+  // monta tutto
+  duelContainer.appendChild(pick1);
+  duelContainer.appendChild(roleDiv);
+  duelContainer.appendChild(pick2);
+  wrapper.appendChild(duelContainer);
+
+  // eventi click
   $('pick1').onclick = () => recordArenaWin(1);
   $('pick2').onclick = () => recordArenaWin(2);
   $('arenaClose').onclick = () => { $('arenaOverlay').style.display = 'none'; };
@@ -872,8 +1010,29 @@ function endArenaBattle() {
   `;
 }
 
+function generateTestTeams(size = 5) {
+  if (!characters || characters.length === 0) {
+    alert("⚠️ Personaggi non caricati!");
+    return;
+  }
 
+  // Mischia i personaggi
+  const shuffled = [...characters].sort(() => 0.5 - Math.random());
 
+  // Taglia i primi `size*2`
+  const selected = shuffled.slice(0, size * 2);
+
+  // Divide in due squadre
+  team1 = selected.slice(0, size);
+  team2 = selected.slice(size, size * 2);
+
+  // Mostra le squadre (se hai già funzioni che aggiornano la UI)
+  renderTeams();
+
+  console.log("✅ Squadre generate:");
+  console.log("Team 1:", team1.map(c => c.name));
+  console.log("Team 2:", team2.map(c => c.name));
+}
 
 
   load();
