@@ -110,7 +110,7 @@ body::before {
   box-shadow: 0 10px 30px rgba(0,0,0,.6);
   cursor: pointer;
   transition: transform 0.3s, box-shadow 0.3s, filter 0.3s;
-  font-family: 'Treasure Map Deadhand', cursive; /* pirate style font */
+  font-family: 'Times New Roman', cursive; /* pirate style font */
   color: #3b2f1a;
   border: 2px solid #b88b57;
 }
@@ -119,6 +119,26 @@ body::before {
     box-shadow: 0 20px 50px rgba(0,0,0,.8); 
     filter: brightness(1.05);
   }
+  .card h1 {
+  margin: 8px 0;
+  font-size: 28px;            /* 👈 più grande */
+  font-weight: 400;           /* 👈 molto più marcato */
+  text-align: center;
+  color: #3b0202;             /* 👈 colore più brillante */
+  font-family: 'Times New Roman', cursive; /* mantiene il look piratesco */
+  letter-spacing: 1px;
+  text-transform: uppercase;  /* 👈 tutto maiuscolo per più impatto */
+  transition: transform 0.2s ease, text-shadow 0.2s ease;
+}
+
+.card:hover h1 {
+  transform: scale(1.08);     /* 👈 leggero ingrandimento al passaggio */
+  text-shadow: 
+    0 0 12px rgba(255, 221, 87, 1), 
+    0 0 22px rgba(255, 140, 0, 0.9),
+    3px 3px 2px #000;
+}
+
   /* Conqueror's Haki Lightning Aura */
 
 /* Conqueror's Haki Lightning Aura - always visible */
@@ -216,7 +236,9 @@ h1 {
   }
 
   .pill { 
-    background: var(--secondary); 
+     background: linear-gradient(to bottom, #243061, #1d274e);
+     color: #f6f7ff;
+  box-shadow: 0 2px 4px rgba(0,0,0,.35);
     padding: 8px 10px; 
     border-radius: 999px; 
     text-align: center; 
@@ -233,6 +255,7 @@ h1 {
     margin-bottom: 12px; 
     flex-wrap: wrap; 
     justify-content: center; 
+    
   }
   button { 
     cursor: pointer; 
@@ -299,13 +322,15 @@ h1 {
     margin: 8px 0; 
     background-color: #4f74ff;
     padding: 10px 12px; 
+    gap: 8px;
     border-radius: 12px; 
     font-size: 14px; 
     cursor: pointer; 
     display: flex; 
     justify-content: space-between; 
     align-items: center; 
-    transition: background 0.2s, transform 0.2s; 
+    transition: transform .12s ease, box-shadow .12s ease, opacity .12s ease;
+    
   }
   .role.capitano { background: var(--pill-cap); color: rgb(245, 232, 255); }
   .role.vice { background: var(--pill-vice); color: rgb(246, 209, 255); }
@@ -339,6 +364,26 @@ h1 {
     background: var(--primary); 
     color: rgb(172, 171, 248); 
   }
+
+
+/* highlight drop target */
+.role.drop-target {
+  outline: 2px dashed rgba(255,221,87,0.9);
+  transform: translateX(6px);
+  background: linear-gradient(90deg, rgba(255,221,87,0.06), rgba(255,221,87,0.02));
+}
+
+/* placeholder style if you use one */
+.role.placeholder {
+  background: linear-gradient(90deg, rgba(255,255,255,0.03), rgba(0,0,0,0.03));
+  border: 2px dashed rgba(255,255,255,0.06);
+  min-height: 44px;
+}
+
+/* small responsive touch improvement */
+@media (pointer: coarse) {
+  .drag-handle { display: none; } /* on touch devices, whole row draggable is fine */
+}
 
 .legend {
   display: flex;
@@ -382,6 +427,119 @@ h1 {
   background: url('images/light.png') center/cover no-repeat; 
   border: 1px solid rgba(255,255,255,0.5);
 }
+/* highlight team corrente */
+.team.active {
+  box-shadow: 0 12px 30px rgba(255, 221, 87, 0.18);
+  transform: translateY(-4px);
+  border: 2px solid #ffd66b;
+}
+
+/* card già assegnata: aspetto e blocco interazioni */
+.card.assigned {
+  opacity: 0.45;
+  filter: grayscale(70%) saturate(.6);
+  pointer-events: none;
+  transform: none;
+}
+/* highlight per selezione swap */
+.role.selected-for-swap {
+  outline: 3px dashed #ffdd57;
+  transform: scale(1.02);
+  box-shadow: 0 8px 18px rgba(255,221,87,0.12);
+}
+
+/* Overlay scuro dietro la modal */
+#swapOverlay {
+  position: fixed;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: rgba(0,0,0,0.65);
+  z-index: 10001;
+  display: none;
+}
+
+/* Modal migliorata */
+#swapModal {
+  position: fixed;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%,-50%) scale(0.9);
+  min-width: 340px;
+  max-width: 95vw;
+  background: rgba(30, 28, 48, 0.9);
+  backdrop-filter: blur(8px);
+  border: 2px solid #ffcc33;
+  color: #fff;
+  padding: 20px;
+  border-radius: 18px;
+  z-index: 10002;
+  box-shadow: 0 16px 48px rgba(0,0,0,0.8);
+  display: none;
+  opacity: 0;
+  transition: all 0.3s ease;
+}
+
+#swapModal.show {
+  display: block;
+  opacity: 1;
+  transform: translate(-50%,-50%) scale(1);
+}
+
+#swapModal h3 {
+  margin:0 0 12px 0;
+  font-size:20px;
+  text-align:center;
+  color: #ffcc33;
+  text-shadow: 0 2px 6px rgba(0,0,0,0.6);
+}
+
+#swapModal p {
+  margin:0 0 14px 0;
+  opacity:.9;
+  text-align:center;
+}
+
+/* Bottoni più belli */
+#swapModal .swap-actions {
+  display:flex;
+  flex-wrap:wrap;
+  gap:10px;
+  justify-content:center;
+  margin-bottom:10px;
+}
+
+#swapModal button {
+  padding:10px 14px;
+  border-radius:10px;
+  border:0;
+  cursor:pointer;
+  font-weight:700;
+  display:flex;
+  align-items:center;
+  gap:6px;
+  transition: all 0.2s ease;
+}
+
+#swapModal button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 12px rgba(0,0,0,0.3);
+}
+
+/* Colori diversi per azioni */
+#swapBtn1, #swapBtn2 {
+  background: linear-gradient(180deg,#ffcc33,#d9a600);
+  color:#111;
+}
+
+#swapDone {
+  background: linear-gradient(180deg,#4caf50,#388e3c);
+  color:#fff;
+}
+
+#swapCancel {
+  background: linear-gradient(180deg,#e53935,#b71c1c);
+  color:#fff;
+}
+
 
 /* ===== VS Banner ===== */
 #vsBanner {
@@ -445,10 +603,11 @@ h1 {
   border-radius: 20px;
   box-shadow: 0 0 40px rgba(255, 221, 87, 0.5), inset 0 0 20px rgba(255, 215, 0, 0.2);
   color: #fff;
-  font-family: 'Treasure Map Deadhand', cursive;
+  font-family: 'Times New Roman', cursive;
   z-index: 10000;
   text-align: center;
   transition: transform 0.4s ease, opacity 0.4s ease;
+  
 }
 
 
@@ -458,7 +617,7 @@ h1 {
   display:flex;
   justify-content:space-between;
   align-items:center;
-  font-family:'Treasure Map Deadhand', cursive;
+  font-family:'Times New Roman', cursive;
   font-weight:700;
   letter-spacing:1px;
   text-shadow:0 0 8px #000;
@@ -476,6 +635,49 @@ h1 {
 
 #arenaDuelCounter{ font-size:18px; opacity:.9; }
 #arenaScore{ font-size:20px; }
+/* === Particelle === */
+#particleContainer {
+  position: fixed;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  pointer-events: none;
+  overflow: hidden;
+  z-index: 9998; /* sotto al VS banner */
+}
+
+.particle {
+  position: absolute;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: gold;
+  opacity: 0.8;
+  animation: particleFall 2s linear forwards;
+  box-shadow: 0 0 8px gold;
+}
+
+@keyframes particleFall {
+  0%   { transform: translateY(0) scale(1); opacity: 1; }
+  100% { transform: translateY(120vh) scale(0.3); opacity: 0; }
+}
+
+/* === Fumo === */
+.smoke {
+  position: absolute;
+  width: 40px;
+  height: 40px;
+  background: radial-gradient(circle, rgba(200,200,200,0.5) 0%, rgba(80,80,80,0) 70%);
+  border-radius: 50%;
+  animation: smokeRise 3s ease-out forwards;
+  opacity: 0.6;
+}
+
+@keyframes smokeRise {
+  0%   { transform: translateY(0) scale(0.5); opacity: 0.6; }
+  50%  { opacity: 0.4; }
+  100% { transform: translateY(-200px) scale(1.8); opacity: 0; }
+}
+
 
 #duelWrapper{
   width:min(960px, 95vw);
@@ -488,10 +690,11 @@ h1 {
 
 .duel-container {
   display: flex;
-  flex-direction: column;
   align-items: center;
-  gap: 24px;
+  justify-content: center;   /* 👈 aggiunto */
+  gap: 48px;
   text-align: center;
+  flex-wrap: wrap; /* se serve su schermi piccoli */
 }
 
 @media(min-width: 600px) {
@@ -502,17 +705,22 @@ h1 {
 }
 
 .duel-side {
+  display: flex;
+  flex-direction: column;  /* immagine sopra, nome sotto */
+  align-items: center;     /* 👈 centrato */
+  justify-content: center;
   cursor: pointer;
   transition: transform 0.2s, box-shadow 0.2s;
   border-radius: 16px;
   background: linear-gradient(145deg, #3b3b5c, #202040);
-  padding: 8px;
+  padding: 12px;
   box-shadow: 0 6px 18px rgba(0,0,0,0.5);
 }
 
 .duel-side img {
-  width: 60vw;
-  max-width: 220px;
+  display: block;
+  margin: 0 auto;
+  max-width: 240px;   /* leggermente più grande */
   height: auto;
   border-radius: 12px;
   border: 2px solid #ffdd57;
@@ -525,12 +733,16 @@ h1 {
 }
 
 .duel-role {
-  font-size: 28px;
+  font-family: 'Poppins', sans-serif;
+  font-size: 36px;   /* 👈 più grande */
   font-weight: 900;
   color: #ffdd57;
-  text-shadow: 0 0 12px #000, 0 0 20px #ffbb00;
-  white-space: nowrap;
-  margin: 0 12px;
+  text-transform: uppercase;
+  letter-spacing: 3px;
+  text-shadow: 0 0 8px #000, 0 0 16px #ffbb00;
+  margin: 0 20px;
+  text-align: center;   /* 👈 centrato */
+  flex: 0 0 100%;       /* prende una riga intera al centro */
 }
 
 .duel-side img:hover{
@@ -570,6 +782,9 @@ h1 {
 width: 100%; /* full width on small screens */
   max-width: 300px;
 }
+.role-ghost { opacity: 0.6; transform: scale(.99); }
+.drag-handle { cursor: grab; margin-right:8px; user-select:none; }
+@media (pointer: coarse) { .drag-handle { display:none; } } /* su touch nasconde handle */
 
 
 
@@ -580,30 +795,32 @@ width: 100%; /* full width on small screens */
   <div class="actions">
     <button id="randomBtn">🎲 Random</button>
     <button id="noRepeatBtn" class="secondary">🔁 No ripetizioni</button>
-    
+      <button id="resetBtn" class="secondary">♻️ Reset</button>
   </div>
   <div id="counter">0 / 0</div>
   <div class="card-container" id="cards"></div>
-
-  <div class="teams">
-    <div class="team" id="team1">
-      <h2>Giocatore 1</h2>
-      <div class="role capitano" data-role="Capitano">Capitano: —</div>
-      <div class="role vice" data-role="Vice Capitano">Vice Capitano: —</div>
-      <div class="role combattente" data-role="Primo Combattente">Primo Combattente: —</div>
-      <div class="role combattente" data-role="Secondo Combattente">Secondo Combattente: —</div>
-      <div class="role combattente" data-role="Terzo Combattente">Terzo Combattente: —</div>
-    </div>
-    <div class="team" id="team2">
-      <h2>Giocatore 2</h2>
-      <div class="role capitano" data-role="Capitano">Capitano: —</div>
-      <div class="role vice" data-role="Vice Capitano">Vice Capitano: —</div>
-      <div class="role combattente" data-role="Primo Combattente">Primo Combattente: —</div>
-      <div class="role combattente" data-role="Secondo Combattente">Secondo Combattente: —</div>
-      <div class="role combattente" data-role="Terzo Combattente">Terzo Combattente: —</div>
-    </div>
+<div class="teams">
+<div class="team" id="team1" role="list" aria-label="Giocatore 1">
+  <h2>Giocatore 1</h2>
+  <div class="roles-list">
+    <div class="role capitano" data-role="Capitano" role="listitem" tabindex="0">Capitano: —</div>
+    <div class="role vice"    data-role="Vice Capitano" role="listitem" tabindex="0">Vice Capitano: —</div>
+    <div class="role combattente" data-role="Primo Combattente" role="listitem" tabindex="0">Primo Combattente: —</div>
+    <div class="role combattente" data-role="Secondo Combattente" role="listitem" tabindex="0">Secondo Combattente: —</div>
+    <div class="role combattente" data-role="Terzo Combattente" role="listitem" tabindex="0">Terzo Combattente: —</div>
   </div>
-
+</div>
+    <div class="team" id="team2" role="list" aria-label="Giocatore 2">
+  <h2>Giocatore 2</h2>
+  <div class="roles-list">
+    <div class="role capitano" data-role="Capitano" role="listitem" tabindex="0">Capitano: —</div>
+    <div class="role vice"    data-role="Vice Capitano" role="listitem" tabindex="0">Vice Capitano: —</div>
+    <div class="role combattente" data-role="Primo Combattente" role="listitem" tabindex="0">Primo Combattente: —</div>
+    <div class="role combattente" data-role="Secondo Combattente" role="listitem" tabindex="0">Secondo Combattente: —</div>
+    <div class="role combattente" data-role="Terzo Combattente" role="listitem" tabindex="0">Terzo Combattente: —</div>
+  </div>
+</div>
+</div>
   <div class="role-menu" id="roleMenu"></div>
 
  <div class="legend">
@@ -624,15 +841,29 @@ width: 100%; /* full width on small screens */
   let currentChar = null;
 
   const $ = (id) => document.getElementById(id);
+  const assigned = new Set();
 
-  async function load() {
+async function load() {
+  try {
     const res = await fetch('characters.json');
+    if (!res.ok) throw new Error('HTTP ' + res.status);
     data = await res.json();
-    totalCharacters = data.length;
-    pool = [...data];
-    showCards([randomFrom(data)]);
-    updateCounter();
+  } catch (err) {
+    console.error('Errore caricamento characters.json', err);
+    document.getElementById('cards').innerHTML =
+      '<div style="color:#c33;padding:24px;text-align:center;">Errore caricamento characters.json — vedi console (F12).</div>';
+    return;
   }
+  totalCharacters = data.length;
+  pool = [...data];
+
+ await showCards([randomFrom(data)]);
+restoreTeams();
+normalizeRoles();   // aggiungi
+initSortable();     // poi inizializza Sortable
+updateCurrentPlayerUI();
+updateCounter();
+}
 
   function randomFrom(arr) {
     return arr[Math.floor(Math.random() * arr.length)];
@@ -730,10 +961,12 @@ async function showCards(chars) {
 
     card.appendChild(imgEl);
     card.appendChild(content);
+    card.dataset.name = char.name;
 
     card.addEventListener('click', (e) => showRoleMenu(e, char));
     container.appendChild(card);
   }
+  markAssignedOnCards();
 }
 
 // renderArenaDuel diventa async (viene chiamata senza await ma funziona)
@@ -832,12 +1065,37 @@ async function renderArenaDuel() {
     menu.style.left = e.clientX + 'px';
   }
 
-  function assignCharacterToRole(roleDiv) {
-    roleDiv.textContent = `${roleDiv.dataset.role}: ${currentChar.name}`;
+  
+
+function assignCharacterToRole(roleDiv) {
+  const name = currentChar?.name;
+  if (!name) return;
+
+  // se già assegnato, avvisa e non procedere (NON toggle del currentPlayer)
+  if (assigned.has(name)) {
+    alert('❌ Personaggio già assegnato in una squadra.');
     $('roleMenu').style.display = 'none';
-    currentPlayer = currentPlayer === 1 ? 2 : 1;
-     checkTeamsFull();
+    return;
   }
+
+  // assegna: imposta testo e dataset per affidabilità
+  roleDiv.textContent = `${roleDiv.dataset.role}: ${name}`;
+  roleDiv.dataset.character = name;
+  assigned.add(name);
+
+  // UI + persistenza + marcatura card
+  $('roleMenu').style.display = 'none';
+  persistTeams();
+  markAssignedOnCards();
+  updateCounter();
+
+  // toggle del turno SOLO dopo assegnazione riuscita
+  currentPlayer = currentPlayer === 1 ? 2 : 1;
+  updateCurrentPlayerUI();
+  checkTeamsFull();
+}
+
+
 
   document.addEventListener('click', (e) => {
     if (!e.target.closest('.card') && !e.target.closest('#roleMenu')) {
@@ -864,14 +1122,6 @@ function showVsBanner(text = 'VS') {
   }, 3000); // hide after 3s
 }
 
-function checkTeamsFull() {
-  if (teamsAreFull()) {
-    showVsBanner('VS');
-    setTimeout(() => {
-      startArenaAfterVS();
-    }, 3000); // wait 3s for the VS banner
-  }
-}
 
 // ===== Arena State =====
 let arenaState = {
@@ -891,21 +1141,23 @@ function buildDuels() {
     const r2 = roles2[i];
     if (!r1 || !r2) return;
 
-    const name1 = (r1.textContent.split(': ')[1] || '').trim();
-    const name2 = (r2.textContent.split(': ')[1] || '').trim();
+    const name1 = (r1.dataset.character || '').trim();
+    const name2 = (r2.dataset.character || '').trim();
 
     const char1 = data.find(c => c.name === name1);
     const char2 = data.find(c => c.name === name2);
 
     if (char1 && char2) {
-      // Prefer data-role attribute; fallback to text before ':'
       const roleLabel = r1.dataset.role || (r1.textContent.split(':')[0] || '').trim();
       arr.push({ role: roleLabel, char1, char2 });
     }
   });
 
-  return arr;
+  // 👇 inverti l’ordine: dal terzo combattente al capitano
+  return arr.reverse();
 }
+
+
 
 function startArenaAfterVS() {
   const duels = buildDuels();
@@ -925,62 +1177,6 @@ function startArenaAfterVS() {
   }, 50);
 }
 
-
-async function renderArenaDuel() {
-  const d = arenaState.duels[arenaState.idx];
-
-  // Top bar
-  $('arenaDuelCounter').textContent =
-    `Duello ${arenaState.idx + 1} / ${arenaState.duels.length}`;
-  $('arenaScore').textContent =
-    `Giocatore 1 ${arenaState.score1} — ${arenaState.score2} Giocatore 2`;
-
-  // svuota contenitore
-  const wrapper = $('duelWrapper');
-  wrapper.innerHTML = "";
-
-  // contenitore principale
-  const duelContainer = document.createElement('div');
-  duelContainer.className = 'duel-container';
-
-  // lato 1
-  const pick1 = document.createElement('div');
-  pick1.className = 'duel-side';
-  pick1.id = 'pick1';
-  const img1 = await createResponsiveImage(d.char1.image, d.char1.name);
-  const name1 = document.createElement('div');
-  name1.className = 'char-name';
-  name1.textContent = d.char1.name;
-  pick1.appendChild(img1);
-  pick1.appendChild(name1);
-
-  // ruolo (al centro)
-  const roleDiv = document.createElement('div');
-  roleDiv.className = 'duel-role';
-  roleDiv.textContent = `⚔️ ${d.role} ⚔️`;
-
-  // lato 2
-  const pick2 = document.createElement('div');
-  pick2.className = 'duel-side';
-  pick2.id = 'pick2';
-  const img2 = await createResponsiveImage(d.char2.image, d.char2.name);
-  const name2 = document.createElement('div');
-  name2.className = 'char-name';
-  name2.textContent = d.char2.name;
-  pick2.appendChild(img2);
-  pick2.appendChild(name2);
-
-  // monta tutto
-  duelContainer.appendChild(pick1);
-  duelContainer.appendChild(roleDiv);
-  duelContainer.appendChild(pick2);
-  wrapper.appendChild(duelContainer);
-
-  // eventi click
-  $('pick1').onclick = () => recordArenaWin(1);
-  $('pick2').onclick = () => recordArenaWin(2);
-  $('arenaClose').onclick = () => { $('arenaOverlay').style.display = 'none'; };
-}
 
 function recordArenaWin(team) {
   if (team === 1) arenaState.score1++; else arenaState.score2++;
@@ -1009,30 +1205,324 @@ function endArenaBattle() {
     </div>
   `;
 }
+// aggiorna UI che evidenzia quale giocatore è corrente
+function updateCurrentPlayerUI() {
+  document.querySelectorAll('.team').forEach(t => t.classList.remove('active'));
+  const el = document.getElementById('team' + currentPlayer);
+  if (el) el.classList.add('active');
+}
 
-function generateTestTeams(size = 5) {
-  if (!characters || characters.length === 0) {
-    alert("⚠️ Personaggi non caricati!");
+// segna sulle card quali personaggi sono già assegnati (usa dataset.name impostato in showCards)
+function markAssignedOnCards() {
+  const cards = document.querySelectorAll('#cards .card');
+  cards.forEach(card => {
+    const name = card.dataset.name || (card.querySelector('h1')?.textContent?.trim() || '');
+    if (name && assigned.has(name)) {
+      card.classList.add('assigned');
+    } else {
+      card.classList.remove('assigned');
+    }
+  });
+}
+
+// conta assegnati e aggiorna il contatore
+function updateCounter() {
+  const used = assigned.size;
+  $('counter').textContent = `${used} / ${totalCharacters}`;
+}
+function persistTeams() {
+  try {
+    const state = {
+      team1: Array.from(document.querySelectorAll('#team1 .role')).map(r => r.dataset.character || null),
+      team2: Array.from(document.querySelectorAll('#team2 .role')).map(r => r.dataset.character || null),
+      assigned: [...assigned],
+      currentPlayer
+    };
+    localStorage.setItem('op_teams_v1', JSON.stringify(state));
+  } catch (e) {
+    console.warn('persistTeams failed', e);
+  }
+}
+
+function restoreTeams() {
+  try {
+    const raw = localStorage.getItem('op_teams_v1');
+    if (!raw) return;
+    const s = JSON.parse(raw);
+
+    const roles1 = document.querySelectorAll('#team1 .role');
+    const roles2 = document.querySelectorAll('#team2 .role');
+
+    if (Array.isArray(s.team1)) {
+      s.team1.forEach((name, i) => {
+        if (!roles1[i]) return;
+        roles1[i].dataset.character = name || '';
+        roles1[i].textContent = `${roles1[i].dataset.role}: ${name || '—'}`;
+        if (name) assigned.add(name);
+      });
+    }
+    if (Array.isArray(s.team2)) {
+      s.team2.forEach((name, i) => {
+        if (!roles2[i]) return;
+        roles2[i].dataset.character = name || '';
+        roles2[i].textContent = `${roles2[i].dataset.role}: ${name || '—'}`;
+        if (name) assigned.add(name);
+      });
+    }
+    if (Array.isArray(s.assigned)) s.assigned.forEach(n => assigned.add(n));
+    if (s.currentPlayer) currentPlayer = s.currentPlayer;
+
+    // UI sync
+    updateCurrentPlayerUI();
+    markAssignedOnCards();
+    updateCounter();
+  } catch (e) {
+    console.warn('restoreTeams failed', e);
+  }
+}
+
+/* ---------- NATIVE drag & drop for roles (within same team) ---------- */
+let _dragSrc = null;
+
+function initSortable() {
+  document.querySelectorAll('.roles-list').forEach(list => {
+    new Sortable(list, {
+      animation: 150,
+      ghostClass: 'role-ghost', // classe visuale durante il trascinamento
+      onEnd: function () {
+        // salva nuovo ordine appena finito il drag
+        persistTeams();
+        markAssignedOnCards();
+        updateCounter();
+      }
+    });
+  });
+}
+/* ----------------- Normalizzazione ruoli + helper label/handle ----------------- */
+function normalizeRoles() {
+  document.querySelectorAll('.role').forEach(r => {
+    const roleName = r.dataset.role || r.getAttribute('data-role') || '';
+    // determina character corrente (preferisce dataset se impostato)
+    let currentChar = r.dataset.character ?? '';
+    if (!currentChar) {
+      const parts = r.textContent.split(':');
+      const after = parts.length > 1 ? parts.slice(1).join(':').trim() : '';
+      currentChar = (after && after !== '—') ? after : '';
+    }
+    // ricrea struttura: handle + label
+    r.innerHTML = '';
+    const handle = document.createElement('span');
+    handle.className = 'drag-handle';
+    handle.innerHTML = '☰';
+    r.appendChild(handle);
+
+    const label = document.createElement('span');
+    label.className = 'role-label';
+    label.textContent = `${roleName}: ${currentChar || '—'}`;
+    r.appendChild(label);
+
+    r.dataset.role = roleName;
+    r.dataset.character = currentChar || '';
+  });
+}
+
+function setRoleCharacter(roleEl, name) {
+  roleEl.dataset.character = name || '';
+  const label = roleEl.querySelector('.role-label');
+  if (label) label.textContent = `${roleEl.dataset.role}: ${name || '—'}`;
+}
+
+function swapRoleCharacters(elA, elB) {
+  const a = elA.dataset.character || '';
+  const b = elB.dataset.character || '';
+  setRoleCharacter(elA, b);
+  setRoleCharacter(elB, a);
+  persistTeams();
+  markAssignedOnCards();
+}
+
+/* ----------------- Modal / stato swap ----------------- */
+let swapModalEl = null;
+const swapState = { open: false, active: false, team: null, picks: [] };
+
+function createSwapModal() {
+  if (swapModalEl) return;
+
+  // overlay
+  const overlay = document.createElement('div');
+  overlay.id = 'swapOverlay';
+  document.body.appendChild(overlay);
+
+  swapModalEl = document.createElement('div');
+  swapModalEl.id = 'swapModal';
+  swapModalEl.innerHTML = `
+    <h3>⚔️ Fase di Switch ⚔️</h3>
+    <p id="swapMsg">Ogni giocatore può scambiare due ruoli nella propria squadra.</p>
+    <div class="swap-actions">
+      <button id="swapBtn1">🏴‍☠️ Scambia Team 1</button>
+      <button id="swapBtn2">☠️ Scambia Team 2</button>
+      <button id="swapDone">✅ Inizia Arena</button>
+      <button id="swapCancel">❌ Annulla</button>
+    </div>
+    <p style="font-size:12px;opacity:.8">Durante lo scambio: clicca due ruoli per scambiarli.<br>
+    Puoi ripetere più volte prima di premere "Inizia Arena".</p>
+  `;
+  document.body.appendChild(swapModalEl);
+
+  // Bottoni
+  document.getElementById('swapBtn1').addEventListener('click', () => startSwapForTeam('team1'));
+  document.getElementById('swapBtn2').addEventListener('click', () => startSwapForTeam('team2'));
+  document.getElementById('swapDone').addEventListener('click', () => {
+  closeSwapModal();
+  showVsBanner('VS');   // 👈 mostra la scritta qui
+  // fai partire l'arena dopo un piccolo delay
+  setTimeout(() => {
+    startArenaAfterVS();
+  }, 1200); // 1,2s per dare tempo all’animazione "VS"
+});
+  document.getElementById('swapCancel').addEventListener('click', () => {
+    closeSwapModal();
+  });
+
+  // Chiudi anche cliccando fuori
+  overlay.style.pointerEvents = 'none';
+}
+
+function openSwapModal() {
+  createSwapModal();
+  document.getElementById('swapOverlay').style.display = 'block';
+  swapModalEl.classList.add('show');
+  swapState.open = true;
+}
+
+function closeSwapModal() {
+  document.getElementById('swapOverlay').style.display = 'none';
+  swapModalEl.classList.remove('show');
+  swapState.open = false;
+  swapState.active = false;
+  swapState.team = null;
+  swapState.picks = [];
+  document.querySelectorAll('.role').forEach(r => r.classList.remove('selected-for-swap'));
+}
+
+
+function startSwapForTeam(teamId) {
+  swapState.active = true;
+  swapState.team = teamId;
+  swapState.picks = [];
+  document.getElementById('swapMsg').textContent =
+    `Seleziona due ruoli della squadra ${teamId === 'team1' ? '1' : '2'} da scambiare.`;
+
+  // 👇 aggiungi queste due righe per nascondere la schermata
+  document.getElementById('swapOverlay').style.display = 'none';
+  swapModalEl.classList.remove('show');
+}
+
+/* listener delegato per selezione ruoli quando siamo in swap-mode */
+document.addEventListener('click', function (e) {
+  if (!swapState.active) return;         // non siamo in modalità swap
+  const role = e.target.closest('.role');
+  if (!role) return;
+  const team = role.closest('.team');
+  if (!team || team.id !== swapState.team) {
+    alert('Seleziona ruoli solo nella squadra scelta.');
     return;
   }
 
-  // Mischia i personaggi
-  const shuffled = [...characters].sort(() => 0.5 - Math.random());
+  // gestione selezione / deselezione
+  if (role.classList.contains('selected-for-swap')) {
+    role.classList.remove('selected-for-swap');
+    swapState.picks = swapState.picks.filter(r => r !== role);
+    return;
+  }
 
-  // Taglia i primi `size*2`
-  const selected = shuffled.slice(0, size * 2);
+  role.classList.add('selected-for-swap');
+  swapState.picks.push(role);
 
-  // Divide in due squadre
-  team1 = selected.slice(0, size);
-  team2 = selected.slice(size, size * 2);
+if (swapState.picks.length === 2) {
+  const [r1, r2] = swapState.picks;
+  swapRoleCharacters(r1, r2);
 
-  // Mostra le squadre (se hai già funzioni che aggiornano la UI)
-  renderTeams();
+  // aggiorna messaggio e riapri la modal
+  openSwapModal();
+  document.getElementById('swapMsg').textContent =
+    'Scambio effettuato. Puoi scambiare ancora o premere "Inizia Arena".';
 
-  console.log("✅ Squadre generate:");
-  console.log("Team 1:", team1.map(c => c.name));
-  console.log("Team 2:", team2.map(c => c.name));
+  swapState.picks.forEach(r => r.classList.remove('selected-for-swap'));
+  swapState.picks = [];
 }
+});
+
+/* ----------------- Sostituisci checkTeamsFull() con questa versione ----------------- */
+function checkTeamsFull() {
+  if (teamsAreFull()) {
+    // apri modal con opzioni di swap
+    openSwapModal();
+  }
+}
+
+
+// call this once after DOM load / restoreTeams
+// makeRolesDraggable();
+
+function resetTeams() {
+  ['team1','team2'].forEach(id => {
+    document.querySelectorAll(`#${id} .role`).forEach(r => {
+      r.textContent = `${r.dataset.role}: —`;
+      r.dataset.character = '';
+    });
+  });
+  assigned.clear();
+  currentPlayer = 1;
+  persistTeams();
+  updateCurrentPlayerUI();
+  markAssignedOnCards();
+  updateCounter();
+}
+
+$('resetBtn').addEventListener('click', () => {
+  if (confirm('Resetta le squadre?')) resetTeams();
+});
+
+// --- Particelle randomiche ---
+function spawnParticle() {
+  const container = document.getElementById("particleContainer");
+  const p = document.createElement("div");
+  p.className = "particle";
+  p.style.left = Math.random() * 100 + "vw";
+  p.style.top = "-10px";
+  p.style.width = p.style.height = (Math.random() * 6 + 4) + "px";
+  
+  container.appendChild(p);
+  setTimeout(() => p.remove(), 2000);
+}
+
+// --- Fumo randomico ---
+function spawnSmoke() {
+  const container = document.getElementById("particleContainer");
+  const s = document.createElement("div");
+  s.className = "smoke";
+  s.style.left = Math.random() * 80 + 10 + "vw"; // margini 10-90%
+  s.style.top = (50 + Math.random() * 20) + "vh"; // metà schermo circa
+  s.style.transform = `scale(${0.5 + Math.random()})`;
+  
+  container.appendChild(s);
+  setTimeout(() => s.remove(), 3000);
+}
+
+// --- Generazione casuale durante arena ---
+// --- Generazione rapida durante arena ---
+setInterval(() => {
+  if (document.getElementById("arenaOverlay").style.display === "flex") {
+    // più particelle per volta
+    for (let i = 0; i < 3; i++) spawnParticle();
+    // più fumo con maggiore probabilità
+    if (Math.random() < 0.6) spawnSmoke();
+  }
+}, 200); // intervallo dimezzato (0.2s invece di 0.4s)
+
+
+
 
 
   load();
@@ -1040,7 +1530,8 @@ function generateTestTeams(size = 5) {
  <div id="vsBanner" aria-hidden="true">VS</div>
 <!-- A R E N A -->
 <div id="arenaOverlay" aria-hidden="true">
-  <div id="arenaTop">
+  <div id="particleContainer"></div>
+    <div id="arenaTop">
     <div id="arenaDuelCounter"></div>
     <div id="arenaScore"></div>
   </div>
