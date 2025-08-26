@@ -542,7 +542,7 @@
   "crew": "On Air Pirates (former informant of Beasts Pirates)",
   "role": "Captain",
   "devil_fruit": "Oto Oto no Mi (Tone-Tone Fruit)",
-  "bounty": "350,000,000",
+  "bounty": "350.000.000",
   "image": "images/apoo.jpg",
   "conqueror_haki": false
 },  {
@@ -602,7 +602,7 @@
   "crew": "Scienziato indipendente (ex MADS)",
   "role": "Scienziato / Antagonista",
   "devil_fruit": "Gasu Gasu no Mi",
-  "bounty": "300,000,000",
+  "bounty": "300.000.000",
   "image": "images/caesar.webp",
   "conqueror_haki": false
 },
@@ -616,6 +616,26 @@
   "bounty": "1,374,000,000",
   "image": "images/marco.jpg",
   "conqueror_haki": false
+},
+{
+  "id": 61,
+  "name": "Dorry",
+  "aliases": ["Dory"],
+  "crew": "Giant Warrior Pirates",
+  "role": "Warrior",
+  "devil_fruit": "null",
+  "bounty": "1,800,000,000",
+  "image": "images/dorry.png"
+},
+{
+  "id": 62,
+  "name": "Brogy",
+  "aliases": [],
+  "crew": "Giant Warrior Pirates",
+  "role": "Warrior",
+  "devil_fruit": null,
+  "bounty": "1,800,000,000",
+  "image": "images/brogy.png"
 }
 
 
