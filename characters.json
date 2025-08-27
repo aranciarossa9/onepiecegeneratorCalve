@@ -8,6 +8,7 @@
     "devil_fruit": "Gomu Gomu no Mi",
     "bounty": "3,000,000,000",
     "image": "images/luffy.jpg",
+    "secondImage": "images/luffywanted.jpeg",
      "conqueror_haki": true
   },
   {
@@ -19,6 +20,7 @@
     "devil_fruit": null,
     "bounty": "1,111,000,000",
     "image": "images/zoro.jpg",
+     "secondImage": "images/zoro2.jpg",
      "conqueror_haki": true
   },
   {
@@ -49,7 +51,8 @@
     "role": "Cook",
     "devil_fruit": null,
     "bounty": "1,032,000,000",
-    "image": "images/sanji.jpg"
+    "image": "images/sanji.jpg" ,
+    "secondImage": "images/sanji2.webp"
   },
   {
     "id": 6,
@@ -151,7 +154,8 @@
     "role": "Emperor",
     "devil_fruit": "Uo Uo no Mi",
     "bounty": "4,611,100,000",
-    "image": "images/kaido.jpg",
+    "image": "images/kaido.png",
+    "secondImage": "images/kaido2.jpg",
      "conqueror_haki": true
   },
   {
@@ -184,7 +188,7 @@
     "role": "Chief of Staff",
     "devil_fruit": "Mera Mera no Mi",
     "bounty": null,
-    "image": "images/sabo.jpg"
+    "image": "images/sabo.png"
   },
   {
     "id": 19,
@@ -358,7 +362,7 @@
     "role": "Samurai / Traitor",
     "devil_fruit": "Fude Fude no Mi",
     "bounty": null,
-    "image": "images/kanjuro.jpg"
+    "image": "images/kanjuro.webp"
   },
   {
     "id": 36,
