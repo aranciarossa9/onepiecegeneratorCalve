@@ -3,6 +3,7 @@
   <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <link href="https://fonts.googleapis.com/css2?family=Pirata+One&display=swap" rel="stylesheet">
   <title>One Piece — Squadre</title>
   <style>
   :root { 
@@ -20,7 +21,66 @@
     --glow-both: rgba(0, 255, 255, 0.685);
     --glow-conqueror: rgba(255,0,0,0.6);
   }
+  .intro-screen {
+  position: fixed;
+  z-index: 9999;
+  left: 0; top: 0; width: 100vw; height: 100vh;
+  background: linear-gradient(135deg, #2b356f 60%, #ffdd57 100%);
+  display: flex; align-items: center; justify-content: center;
+  transition: opacity 0.8s;
+}
 
+.intro-content h1 {
+  font-family: 'Pirata One', serif;
+  letter-spacing: 2px;
+  font-size: 2.8em;
+  color: #ffe26a;
+  text-shadow: 2px 2px 8px #2b356f;
+}
+.intro-content {
+    position: absolute ; z-index: 2;
+    text-align: center;
+
+}
+
+.intro-logo { width: 120px; margin-bottom: 24px; }
+@keyframes wave {
+  0% { background-position-x: 0; }
+  100% { background-position-x: 400px; }
+
+}
+.intro-screen {
+  /* ...existing styles... */
+  background: linear-gradient(135deg, #2b356f 60%, #b30000 150%);
+  position: fixed; z-index: 9999; left: 0; top: 0; width: 100vw; height: 100vh;
+  display: flex; align-items: center; justify-content: center;
+  transition: opacity 0.8s;
+  overflow: hidden;
+}
+.intro-waves {
+  position: absolute; left: 0; bottom: 0; width: 100%; height: 160px; z-index: 1;
+  background: url('data:image/svg+xml;utf8,<svg width="400" height="160" viewBox="0 0 400 160" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M0 80 Q100 120 200 80 T400 80 V160 H0 Z" fill="%23fff" fill-opacity="0.18"/><path d="M0 100 Q100 140 200 100 T400 100 V160 H0 Z" fill="%23fff" fill-opacity="0.22"/></svg>');
+  background-size: 400px 160px;
+  animation: wave 8s linear infinite;
+}
+#start-btn {
+  margin-top: 32px; font-size: 1.5em; padding: 16px 40px;
+  background: linear-gradient(90deg, #ffdd57, #ffb347);
+  color: #2b356f; border: none; border-radius: 32px;
+  cursor: pointer; box-shadow: 0 4px 16px rgba(0,0,0,0.2);
+  font-weight: bold; font-family: 'Pirata One', serif;
+  transition: background 0.3s, transform 0.2s;
+  position: relative; z-index: 2;
+  animation: bounce 1.6s infinite;
+}
+#start-btn:hover {
+  background: #fff176;
+  transform: scale(1.07) rotate(-2deg);
+}
+@keyframes bounce {
+  0%, 100% { transform: translateY(0);}
+  50% { transform: translateY(-10px);}
+}
 /* --- Page Background --- */
 body {
   margin: 0;
@@ -676,7 +736,7 @@ h1 {
   width: min(960px, 90vw);
   max-height: 90vh;
   overflow-y: auto;
-  background: linear-gradient(135deg, #1f1f2e, #2c2c44);
+  background: linear-gradient(135deg, #2b356f 60%, #ffdd57 100%);
   border: 3px solid #ffdd57;
   border-radius: 20px;
   box-shadow: 0 0 40px rgba(255, 221, 87, 0.5), inset 0 0 20px rgba(255, 215, 0, 0.2);
@@ -687,7 +747,11 @@ h1 {
   transition: transform 0.4s ease, opacity 0.4s ease;
   
 }
-
+#arenaOverlay,
+#arenaOverlay .duel-role,
+#arenaOverlay .arena-btn {
+  font-family: 'Pirata One', 'Poppins', cursive, sans-serif;
+}
 
 
 #arenaTop{
@@ -790,9 +854,10 @@ h1 {
   cursor: pointer;
   transition: transform 0.2s, box-shadow 0.2s;
   border-radius: 16px;
-  background: linear-gradient(145deg, #3b3b5c, #202040);
+ background: linear-gradient(145deg, #ffd70022, #2b356f77);
   padding: 12px;
-  box-shadow: 0 6px 18px rgba(0,0,0,0.5);
+   box-shadow: 0 8px 32px rgba(43, 53, 111, 0.15), 0 2px 8px #ffdd57;
+   border: 2px solid #ffdd57;
 }
 
 .duel-side img {
@@ -806,7 +871,7 @@ h1 {
 
 .duel-side:hover {
   transform: scale(1.08);
-  box-shadow: 0 0 28px rgba(255, 221, 87, 0.8);
+   box-shadow: 0 0 28px rgba(255, 221, 87, 0.9);
   filter: brightness(1.1);
 }
 
@@ -839,20 +904,30 @@ h1 {
 .arena-btn {
   cursor: pointer;
   border: 0;
-  border-radius: 12px;
+  border-radius: 24px;
   padding: 14px 24px;
   font-weight: 800;
-  background: linear-gradient(135deg, #ffcc33, #ffaa00);
-  color: #1b1b2f;
+  background: linear-gradient(90deg, #ffdd57, #ffb347);
+  color: #2b356f;
   font-size: 16px;
-  box-shadow: 0 6px 16px rgba(255, 170, 0, 0.6);
-  transition: all 0.2s;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+   font-family: 'Pirata One', 'Poppins', cursive, sans-serif;
+   font-size: 1.1em;
+    transition: background 0.2s, transform 0.1s;
 }
 
 .arena-btn:hover {
   transform: scale(1.05);
   box-shadow: 0 0 24px rgba(255, 221, 87, 0.9);
   filter: brightness(1.15);
+}
+#arenaTop .arena-title {
+  font-family: 'Pirata One', serif;
+  font-size: 2.2em;
+  color: #ffe26a;
+  text-shadow: 2px 2px 8px #2b356f;
+  margin-bottom: 12px;
+  letter-spacing: 2px;
 }
 
 
@@ -864,11 +939,34 @@ width: 100%; /* full width on small screens */
 .drag-handle { cursor: grab; margin-right:8px; user-select:none; }
 @media (pointer: coarse) { .drag-handle { display:none; } } /* su touch nasconde handle */
 
+.arena-end-heading {
+  font-family: 'Pirata One', 'Poppins', cursive, sans-serif;
+  font-size: 2.2em;
+  color: #ffe26a !important;
+  text-shadow: 2px 2px 8px #2b356f, 0 0 16px #ffdd57;
+  letter-spacing: 2px;
+  margin: 0 0 12px 0;
+}
 
+.arena-end-message p {
+  font-family: 'Poppins', cursive, sans-serif;
+  font-size: 1.2em;
+  color: #fff;
+  opacity: 0.9;
+}
 
   </style>
   </head>
-  <body>
+  <body><div id="intro-screen" class="intro-screen">
+    <div class="intro-waves"></div>
+  <div class="intro-content">
+    <!-- Optional: Use your own logo image -->
+    <!-- <img src="logo.png" alt="One Piece Generator" class="intro-logo" /> -->
+    <h1>One Piece Characters Generator </h1>
+    <h1>久しぶりだね！!</h1>
+    <button id="start-btn">Sail!</button>
+  </div>
+</div>
 
   <div class="actions">
     <button id="randomBtn">🎲 Random</button>
@@ -1352,14 +1450,14 @@ function recordArenaWin(team) {
 function endArenaBattle() {
   const { score1, score2 } = arenaState;
   let msg = `🤝 Pareggio (${score1} - ${score2})`;
-  if (score1 > score2) msg = `🏴‍☠️ Giocatore 1 vince! (${score1} - ${score2})`;
-  if (score2 > score1) msg = `🏴‍☠️ Giocatore 2 vince! (${score2} - ${score1})`;
+  if (score1 > score2) msg = `Giocatore 1 vince! (${score1} - ${score2})`;
+  if (score2 > score1) msg = `Giocatore 2 vince! (${score2} - ${score1})`;
 
   $('arenaDuelCounter').textContent = '';
   $('arenaScore').textContent = '';
   $('duelWrapper').innerHTML = `
     <div style="text-align:center; padding:24px;">
-      <h1 style="margin:0 0 12px 0;">${msg}</h1>
+      <h1 class="arena-end-heading" style="margin:0 0 12px 0;">${msg}</h1>
       <p style="opacity:.9">La battaglia è conclusa.</p>
     </div>
   `;
@@ -1679,7 +1777,14 @@ setInterval(() => {
 
 
 
-
+document.getElementById('start-btn').addEventListener('click', function() {
+  resetTeams();
+  const intro = document.getElementById('intro-screen');
+  intro.style.opacity = 0;
+  setTimeout(() => {
+    intro.style.display = 'none';
+  }, 800);
+});
 
   load();
   </script>
@@ -1688,6 +1793,7 @@ setInterval(() => {
 <div id="arenaOverlay" aria-hidden="true">
   <div id="particleContainer"></div>
     <div id="arenaTop">
+      <span class="arena-title">Arena</span>
     <div id="arenaDuelCounter"></div>
     <div id="arenaScore"></div>
   </div>
@@ -1696,6 +1802,7 @@ setInterval(() => {
     <button id="arenaClose" class="arena-btn">Chiudi Arena</button>
   </div>
 </div>
+
 
   </body>
   </html>
