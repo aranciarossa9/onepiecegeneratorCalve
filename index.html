@@ -85,23 +85,59 @@
 body {
   margin: 0;
   font-family: 'Pirata One', sans-serif;
-  background: 
-    url('images/parchment-texture.jpg') center/cover no-repeat fixed, /* old paper */
-    linear-gradient(180deg, #f4fcff 0%, #1e3f66 100%); /* sky to ocean gradient */
-  background-blend-mode: multiply;
-  color: #3b2f1a;
+   background: linear-gradient(180deg, #09203f 0%, #537895 35%, #243b55 70%, #141e30 100%);
+  min-height: 100vh;
+  position: relative;
+  overflow-x: hidden;
 }
 
-/* Optional: add a subtle overlay of a map */
+
+.sparkle {
+  position: fixed;
+  pointer-events: none;
+  z-index: 100;
+  width: 8px;
+  height: 8px;
+  background: radial-gradient(circle, #fffbe8 60%, #ffe066 100%, transparent 100%);
+  opacity: 0.55;
+  border-radius: 50%;
+  animation: sparkleMove 7s linear infinite;
+}
+@keyframes sparkleMove {
+  0% { opacity: 0; transform: translateY(0) scale(0.6);}
+  10% { opacity: 0.6; }
+  50% { opacity: 1; }
+  100% { opacity: 0; transform: translateY(-120vh) scale(1.1);}
+}
+
+/* ---- Fancy Grand Line Map Watermark ---- */
 body::before {
   content: "";
   position: fixed;
-  top: 0; left: 0; right: 0; bottom: 0;
-  background: url('images/one-piece-map.png') center/contain repeat;
-  opacity: 0.15;
-  z-index: -1;
+  inset: 0;
+  /* Glowing map SVG with soft color, not just white */
+  background: url('data:image/svg+xml;utf8,<svg width="900" height="600" viewBox="0 0 900 600" fill="none" xmlns="http://www.w3.org/2000/svg"><ellipse cx="450" cy="300" rx="420" ry="220" fill="none" stroke="%23ffe066" stroke-width="3" opacity="0.15"/><path d="M150,300 Q200,180 300,230 T600,270 Q750,340 800,220" fill="none" stroke="%23ffd700" stroke-width="2.5" opacity="0.14"/><circle cx="600" cy="230" r="22" fill="none" stroke="%23ffd700" stroke-width="2" opacity="0.13"/><text x="282" y="90" font-size="40" fill="%23ffe066" opacity="0.13" font-family="Pirata One, serif">GRAND LINE</text></svg>') center/contain no-repeat;
+  opacity: 0.23;
   pointer-events: none;
+  z-index: 1;
+  filter: blur(0.5px) brightness(1.07);
 }
+
+/* ---- Fancy Ship Silhouette with Glow ---- */
+body::after {
+  content: "";
+  position: fixed;
+  bottom: 0; right: 0;
+  width: 340px; height: 200px;
+  /* A simple ship with a glowing outline, tint the glow golden */
+  background: url('data:image/svg+xml;utf8,<svg width="340" height="200" viewBox="0 0 340 200" fill="none" xmlns="http://www.w3.org/2000/svg"><ellipse cx="170" cy="190" rx="110" ry="13" fill="%23ffd700" opacity="0.13"/><path d="M60 170 Q80 130 125 130 Q170 130 200 170 Z" fill="%23fff" opacity="0.11"/><rect x="155" y="70" width="9" height="60" fill="%23222" opacity="0.19"/><polygon points="164,78 200,120 164,120" fill="%23fff" opacity="0.18"/><polygon points="164,120 200,160 164,160" fill="%23fff" opacity="0.08"/><circle cx="164" cy="170" r="12" fill="%23fff" opacity="0.14"/><polygon points="130,170 164,90 198,170" fill="%23fff" opacity="0.10"/><ellipse cx="170" cy="190" rx="110" ry="13" fill="url(%23glow)" opacity="0.2"/><defs><radialGradient id="glow" cx="50%" cy="50%" r="50%"><stop offset="0%" stop-color="%23fffbe8"/><stop offset="100%" stop-color="%23ffd700" stop-opacity="0.3"/></radialGradient></defs></svg>') no-repeat right bottom/contain;
+  opacity: 0.19;
+  z-index: 3;
+  pointer-events: none;
+  filter: blur(0.1px) drop-shadow(0 0 24px #ffe06688);
+}
+
+/* ---- Optional: Animated Clouds at Top ---- */
 
 /* Scrollbar Styling (optional) */
 ::-webkit-scrollbar {
@@ -967,7 +1003,6 @@ width: 100%; /* full width on small screens */
     <button id="start-btn">Sail!</button>
   </div>
 </div>
-
   <div class="actions">
     <button id="randomBtn">🎲 Random</button>
     <button id="noRepeatBtn" class="secondary">🔁 No ripetizioni</button>
