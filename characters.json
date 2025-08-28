@@ -640,6 +640,26 @@
   "devil_fruit": null,
   "bounty": "1,800,000,000",
   "image": "images/brogy.png"
+},
+{
+  "id": 63,
+  "name": "Buggy",
+  "aliases": ["Buggy The Clown"],
+  "crew": "Buggy Pirates",
+  "role": "Captain",
+  "devil_fruit": "Bara Bara no Mi",
+  "bounty": "3,189,000,000",
+  "image": "images/buggy.jpg"
+},
+{
+  "id": 64,
+  "name": "Magellan",
+  "aliases": [],
+  "crew": "Impel Down",
+  "role": "Chief Warden",
+  "devil_fruit": "Doku Doku no Mi",
+  "bounty": null,
+  "image": "images/magellan.jpg"
 }
 
 
