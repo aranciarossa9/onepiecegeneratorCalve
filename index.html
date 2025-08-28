@@ -201,7 +201,7 @@ body::after {
   position: relative;
   overflow: visible;
   width: min(320px, 92vw);
-  background: linear-gradient(145deg, #f4e0c3, #d9b98b); /* aged paper gradient */
+  background: #b2ebf2;
   border-radius: 20px;
   box-shadow: 0 10px 30px rgba(0,0,0,.6);
   cursor: pointer;
@@ -235,8 +235,83 @@ body::after {
     0 0 22px rgba(255, 140, 0, 0.9),
     3px 3px 2px #000;
 }
+/* === Professional & Colorful === */
+/* Stile card creativa blu */
+.card.style-creative {
+  font-family: 'Poppins', sans-serif;
+  background: #3c5a99; /* blu elegante, non troppo scuro */
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: 0 8px 24px rgba(0,0,0,0.2);
+  display: flex;
+  flex-direction: column;
+}
+.card.style-creative h1 {
+  color: #ffeb99; /* giallo sabbia */
+  text-shadow: 2px 2px 6px rgba(0,0,0,0.7);
+}
+/* Hero */
+.card.style-creative .hero {
+  width: 100%;
+  max-height: 260px;
+  object-fit: cover;
+}
 
-  /* Conqueror's Haki Lightning Aura */
+/* Contenitore info con stesso blu della card */
+.card.style-creative .content {
+  background: #3c5a99;  /* stesso blu */
+  padding: 28px 18px 48px; /* 👈 più spazio in basso per effetto sospeso */
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  border-radius: 0 0 16px 16px;
+  position: relative;
+}
+
+/* Griglia info */
+.card.style-creative .info-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+  margin-top: 14px;
+}
+
+/* Box info sospesi */
+.card.style-creative .info-item {
+  background: #ffffff;
+  border-radius: 12px;
+  padding: 12px;
+  box-shadow: 0 8px 18px rgba(0,0,0,0.25); /* 👈 ombra più forte per sospensione */
+  display: flex;
+  flex-direction: column;
+  transform: translateY(10px); /* 👈 spostati un po’ verso l’alto */
+  transition: transform .25s ease, box-shadow .25s ease;
+}
+
+.card.style-creative .info-item:hover {
+  transform: translateY(2px); /* 👈 si abbassano un po’ al hover */
+  box-shadow: 0 10px 22px rgba(0,0,0,0.35);
+}
+
+/* Label e value */
+.card.style-creative .info-label {
+  font-size: 12px;
+  font-weight: 600;
+  text-transform: uppercase;
+  color: #64748b;
+  margin-bottom: 4px;
+}
+
+.card.style-creative .info-value {
+  font-size: 14px;
+  font-weight: 700;
+  color: #1f2937;
+  line-height: 1.3;
+  word-break: break-word;
+}
+
+
+
 
 /* Conqueror's Haki Lightning Aura - always visible */
 .card-conqueror {
@@ -1157,6 +1232,8 @@ async function showCards(chars) {
     const card = document.createElement("div");
     card.className = "card";
 
+card.classList.add('style-creative')
+
     // Glow effects (stesso tuo codice)
     if (char.bounty && parseInt(String(char.bounty).replace(/\D/g,'')) > 2500000000 
         && char.devil_fruit && char.conqueror_haki) {
@@ -1189,15 +1266,27 @@ content.className = "content";
 content.innerHTML = `
   <h1>${char.name}</h1>
   <div class="meta">${char.crew || '—'}</div>
-  <div class="grid">
-    <div class="pill">${char.role || '—'}</div>
-    <div class="pill">${char.bounty ? `Bounty: ${char.bounty}` : 'Bounty: —'}</div>
-  </div>
-  <div class="grid">
-    <div class="pill">${(char.aliases && char.aliases.length) ? char.aliases.join(', ') : '—'}</div>
-    <div class="pill">Devil fruit: ${char.devil_fruit ?? '—'}</div>
+
+  <div class="info-grid">
+    <div class="info-item">
+      <div class="info-label">Role</div>
+      <div class="info-value">${char.role || '—'}</div>
+    </div>
+    <div class="info-item">
+      <div class="info-label">Bounty</div>
+      <div class="info-value">${char.bounty ? `${char.bounty}` : '—'}</div>
+    </div>
+    <div class="info-item">
+      <div class="info-label">Nickname</div>
+      <div class="info-value">${(char.aliases && char.aliases.length) ? char.aliases.join(', ') : '—'}</div>
+    </div>
+    <div class="info-item">
+      <div class="info-label">Devil Fruit</div>
+      <div class="info-value">${char.devil_fruit ?? '—'}</div>
+    </div>
   </div>
 `;
+
 front.appendChild(content);
 
 const back = document.createElement("div");
@@ -1841,4 +1930,3 @@ document.getElementById('start-btn').addEventListener('click', function() {
 
   </body>
   </html>
-
