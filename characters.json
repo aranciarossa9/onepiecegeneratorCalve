@@ -680,6 +680,96 @@
   "devil_fruit": "Kira Kira no Mi",
   "bounty": "Unknown",
   "image": "images/jozu.jpg"
+},
+{
+  "id": 67,
+  "name": "Jewelry Bonney",
+  "aliases": ["Bonney", "Glutton"],
+  "crew": "Bonney Pirates",
+  "role": "Captain",
+  "devil_fruit": "Toshi Toshi no Mi",
+  "bounty": "320,000,000",
+  "image": "images/bonney.jpg"
+},
+{
+  "id": 68,
+  "name": "Capone Bege",
+  "aliases": ["Gang Bege"],
+  "crew": "Fire Tank Pirates",
+  "role": "Captain",
+  "devil_fruit": "Shiro Shiro no Mi",
+  "bounty": "350,000,000",
+  "image": "images/bege.jpg"
+},
+{
+  "id": 69,
+  "name": "Saint Jaygarcia Saturn",
+  "aliases": ["Saturn"],
+  "crew": "World Government",
+  "role": "Gorosei",
+  "devil_fruit": "Unknown",
+  "bounty": null,
+  "image": "images/saturn.jpg"
+},
+{
+  "id": 70,
+  "name": "Saint Marcus Mars",
+  "aliases": ["Mars"],
+  "crew": "World Government",
+  "role": "Gorosei",
+  "devil_fruit": "Unknown",
+  "bounty": null,
+  "image": "images/mars.jpg"
+},
+{
+  "id": 71,
+  "name": "Vista",
+  "aliases": ["Flower Sword Vista"],
+  "crew": "Whitebeard Pirates",
+  "role": "5th Division Commander",
+  "devil_fruit": null,
+  "bounty": "Unknown",
+  "image": "images/vista.jpg"
+},
+{
+  "id": 72,
+  "name": "Rob Lucci",
+  "aliases": [],
+  "crew": "CP0",
+  "role": "Assassin",
+  "devil_fruit": "Neko Neko no Mi, Model: Leopard",
+  "bounty": null,
+  "image": "images/lucci.jpg"
+},
+{
+  "id": 73,
+  "name": "Lafitte",
+  "aliases": ["Demon Sheriff"],
+  "crew": "Blackbeard Pirates",
+  "role": "Navigator",
+  "devil_fruit": "Unknown",
+  "bounty": "Unknown",
+  "image": "images/lafitte.jpg"
+},
+{
+  "id": 74,
+  "name": "Catarina Devon",
+  "aliases": ["Crescent Moon Hunter"],
+  "crew": "Blackbeard Pirates",
+  "role": "Captain of the Sixth Ship",
+  "devil_fruit": "Inu Inu no Mi, Model: Kyubi no Kitsune",
+  "bounty": "Unknown",
+  "image": "images/devon.jpg"
+},
+{
+  "id": 75,
+  "name": "Benn Beckman",
+  "aliases": [],
+  "crew": "Red-Haired Pirates",
+  "role": "First Mate",
+  "devil_fruit": null,
+  "bounty": "Unknown",
+  "image": "images/beckman.jpg"
 }
 
 
