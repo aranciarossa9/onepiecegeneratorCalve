@@ -668,18 +668,18 @@
   "crew": "Rocks Pirates",
   "role": "Captain",
   "devil_fruit": "Doku Doku no Mi",
-  "bounty": null,
+  "bounty": "Unknown",
   "image": "images/xebec.jpg"
 },
 {
   "id": 66,
-  "name": "Basil Hawkings",
-  "aliases": ["Magician"],
-  "crew": "Hawkings Pirates",
-  "role": "Captain",
-  "devil_fruit": "Wara Wara no Mi",
-  "bounty": "320,000,000",
-  "image": "images/hawkings.jpg"
+  "name": "Jozu",
+  "aliases": ["Diamond Jozu"],
+  "crew": "Whitebeard Pirates",
+  "role": "3rd Divison Commander",
+  "devil_fruit": "Kira Kira no Mi",
+  "bounty": "Unknown",
+  "image": "images/jozu.jpg"
 }
 
 
