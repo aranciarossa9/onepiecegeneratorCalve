@@ -657,9 +657,29 @@
   "aliases": [],
   "crew": "Impel Down",
   "role": "Chief Warden",
-  "devil_fruit": "Doku Doku no Mi",
+  "devil_fruit":"Doku Doku no Mi",
   "bounty": null,
   "image": "images/magellan.jpg"
+},
+{
+  "id": 65,
+  "name": "Rocks D. Xebec",
+  "aliases": ["Xebec"],
+  "crew": "Rocks Pirates",
+  "role": "Captain",
+  "devil_fruit": "Doku Doku no Mi",
+  "bounty": null,
+  "image": "images/xebec.jpg"
+},
+{
+  "id": 66,
+  "name": "Basil Hawkings",
+  "aliases": ["Magician"],
+  "crew": "Hawkings Pirates",
+  "role": "Captain",
+  "devil_fruit": "Wara Wara no Mi",
+  "bounty": "320,000,000",
+  "image": "images/hawkings.jpg"
 }
 
 
