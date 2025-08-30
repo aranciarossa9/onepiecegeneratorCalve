@@ -679,7 +679,7 @@
   "role": "3rd Divison Commander",
   "devil_fruit": "Kira Kira no Mi",
   "bounty": "Unknown",
-  "image": "images/jozu.jpg"
+  "image": "images/jozu.png"
 },
 {
   "id": 67,
@@ -719,7 +719,8 @@
   "role": "Gorosei",
   "devil_fruit": "Unknown",
   "bounty": null,
-  "image": "images/mars.jpg"
+  "image": "images/mars.jpg",
+  "secondImage": "images/mars2.png"
 },
 {
   "id": 71,
@@ -759,7 +760,7 @@
   "role": "Captain of the Sixth Ship",
   "devil_fruit": "Inu Inu no Mi, Model: Kyubi no Kitsune",
   "bounty": "Unknown",
-  "image": "images/devon.jpg"
+  "image": "images/devon.png"
 },
 {
   "id": 75,
@@ -769,9 +770,10 @@
   "role": "First Mate",
   "devil_fruit": null,
   "bounty": "Unknown",
-  "image": "images/beckman.jpg"
+  "image": "images/beckman.png"
 }
 
 
 ]
+
 
