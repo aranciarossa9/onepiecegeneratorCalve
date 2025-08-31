@@ -38,9 +38,24 @@
   text-shadow: 2px 2px 8px #2b356f;
 }
 .intro-content {
-    position: absolute ; z-index: 2;
-    text-align: center;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;        /* centra orizzontale */
+  justify-content: center;    /* centra verticale */
+  text-align: center;
 
+  padding: 2.5rem 2rem;
+  margin: 0 auto;
+
+  border-image: linear-gradient(135deg, #fddc5c, #d4af37, #fddc5c) 1; /* effetto oro/corda */
+  border-radius: 32px;        /* bordi più morbidi */
+  background: #a95de7b6;
+  backdrop-filter: blur(6px);
+
+  box-shadow: 0 6px 24px rgba(0,0,0,.45),
+              inset 0 0 12px rgba(255, 220, 92, 0.35);
+  max-width: 700px;
 }
 
 .intro-logo { width: 120px; margin-bottom: 24px; }
@@ -51,7 +66,7 @@
 }
 .intro-screen {
   /* ...existing styles... */
-  background: linear-gradient(135deg, #2b356f 60%, #b30000 150%);
+  background: linear-gradient(135deg, #6077f5 60%, #d872f7 150%);
   position: fixed; z-index: 9999; left: 0; top: 0; width: 100vw; height: 100vh;
   display: flex; align-items: center; justify-content: center;
   transition: opacity 0.8s;
@@ -324,49 +339,41 @@ body::after {
 
 /* Conqueror's Haki Lightning Aura - always visible */
 .card-conqueror {
-  position: relative; 
+  /* non cambiare background / content della card — solo il box-shadow */
+  position: relative;
   overflow: visible;
-  box-shadow: 0 0 35px 12px var(--glow-conqueror); /* stronger by default */
-  transition: transform 0.3s, box-shadow 0.3s, filter 0.3s;
+  animation: conqBoxFlash 1.2s infinite steps(2);
+  will-change: box-shadow;
+  /* fallback visibile per browser che non supportano animation su box-shadow */
+  box-shadow: 0 0 35px 12px var(--glow-conqueror, red);
 }
+
 .card-conqueror::before {
   content: "";
   position: absolute;
-  top: -30px;
-  left: -30px;
-  right: -30px;
-  bottom: -30px;
+  top: -30px; left: -30px; right: -30px; bottom: -30px;
   background: url('images/light.png') repeat;
   background-size: contain;
-  z-index: -1;
+  z-index: 2;
   pointer-events: none;
-  filter: brightness(1.5) blur(2px);
-  opacity: 0.8;
-  animation: flashAura 1s infinite;
+  opacity: 0.9;
+  mix-blend-mode: screen;
+  animation: flashAura 1.2s infinite steps(2);
 }
 
 @keyframes flashAura {
-  0%   { opacity: 0.7; }
-  10%  { opacity: 1; }
-  20%  { opacity: 0.4; }
-  30%  { opacity: 0.8; }
-  40%  { opacity: 0.5; }
-  50%  { opacity: 1; }
-  60%  { opacity: 0.3; }
-  70%  { opacity: 0.9; }
-  80%  { opacity: 0.6; }
-  90%  { opacity: 1; }
-  100% { opacity: 0.7; }
+  0%   { filter: brightness(0.5) sepia(1) hue-rotate(-20deg) saturate(8); } /* 🔴 strong red */
+  50%  { filter: brightness(0.8) invert(1) contrast(3) grayscale(1); }     /* ⚫ dark aura */
+  100% { filter: brightness(1.1) sepia(1) hue-rotate(-20deg) saturate(8); } /* back to red */
+}
+/* ---- Saette attorno ai nomi: card + arena ---- */
+.card-conqueror .content h1,
+.char-name.conqueror {
+  position: relative;
+  z-index: 3; /* sopra l’immagine */
 }
 
 
-
-/* Hover just makes it stronger and moves the card */
-.card-conqueror:hover {
-  transform: translateY(-8px) scale(1.02);
-  box-shadow: 0 0 35px 12px var(--glow-conqueror), 0 20px 50px rgba(0,0,0,.8);
-  filter: brightness(1.05);
-}
 
 .card-inner {
   position: relative;
@@ -404,7 +411,7 @@ body::after {
 .card-back {
  position: relative;
   transform: rotateY(180deg);
-   background: linear-gradient(145deg, #f4e0c3, #d9b98b);
+  background: linear-gradient(145deg, #3675fc, #0048e2); 
   display: flex;
   width: min(320px, 92vw);
  justify-content:flex-start;
@@ -458,7 +465,6 @@ body::after {
   object-fit: contain; /* keeps proportions without cropping */
   display: block;
   margin: 0 auto;
-  border: 4px solid #8B4513; /* pirate poster frame look */
   border-radius: 10px;
   box-shadow: 0 0 20px rgba(0,0,0,0.5);
 }
@@ -469,7 +475,6 @@ body::after {
   background: rgba(255, 248, 220, 0.85); /* slightly transparent parchment look */
   border-radius: 0 0 20px 20px;
   box-shadow: inset 0 0 5px rgba(0,0,0,0.1);
-  border-top: 2px solid #b88b57;
 }
 
 h1 {
@@ -680,16 +685,28 @@ h1 {
 .glow-bounty { background: gold; box-shadow: 0 0 10px gold; }
 .glow-devil { background: violet; box-shadow: 0 0 10px violet; }
 .glow-both { background: rgba(0, 255, 255, 0.685); box-shadow: 0 0 10px gold; }
-.glow-conqueror { background: red; box-shadow: 0 0 10px red; }
-.glow-lightning { 
-  background: url('images/light.png') center/cover no-repeat; 
-  border: 1px solid rgba(255,255,255,0.5);
+.glow-conqueror {
+  display: inline-block;        /* assicurati che abbia dimensione */
+  position: relative;
+  border-radius: 6px;           /* metti il border-radius che usi nella legenda */
+  /* box-shadow iniziale (fallback prima che entri l'animazione) */
+  box-shadow: 0 0 12px 4px rgba(255,0,0,0.9);
+  animation: conqBoxFlash 5s infinite steps(2);
+  will-change: box-shadow;
 }
-/* highlight team corrente */
-.team.active {
-  box-shadow: 0 12px 30px rgba(255, 221, 87, 0.18);
-  transform: translateY(-4px);
-  border: 2px solid #ffd66b;
+@keyframes conqBoxFlash {
+  0%, 100% {
+    /* rosso vivo */
+    box-shadow:
+      0 0 12px 4px rgba(223, 23, 23, 0.95),
+      0 0 30px 8px rgba(184, 1, 1, 0.95);
+  }
+  50% {
+    /* nero intenso */
+    box-shadow:
+      0 0 12px 4px rgb(71, 0, 0),
+      0 0 30px 8px rgb(0, 0, 0);
+  }
 }
 
 /* card già assegnata: aspetto e blocco interazioni */
@@ -796,6 +813,17 @@ h1 {
 #swapCancel {
   background: linear-gradient(180deg,#e53935,#b71c1c);
   color:#fff;
+}
+#swapHUD {
+  position: fixed;
+  bottom: 18px; left: 50%; transform: translateX(-50%);
+  display: flex; gap: 10px; align-items: center;
+  background: rgba(30,28,48,.9); color: #fff;
+  border: 2px solid #ffcc33; border-radius: 14px;
+  padding: 8px 12px; z-index: 10003; box-shadow: 0 10px 28px rgba(0,0,0,.5);
+}
+#swapHUD button {
+  padding: 8px 12px; border: 0; border-radius: 10px; cursor: pointer; font-weight: 700;
 }
 
 
@@ -1083,8 +1111,7 @@ width: 100%; /* full width on small screens */
 
   <!-- Hidden autoplay background music -->
   <audio id="bg-music" src="audio/binkssake.mp3" type="audio/mpeg" autoplay loop hidden></audio>
-  <button onclick="document.getElementById('bg-music').play()">Play Music</button>
-<button onclick="document.getElementById('bg-music').pause()">Pause Music</button>
+ <button id="audioToggle" class="intro-cta">🔊 Audio ON/OFF</button>
   <div id="intro-screen" class="intro-screen">
     <div class="intro-waves"></div>
   <div class="intro-content">
@@ -1175,6 +1202,10 @@ updateCounter();
 // cache per evitare controlli ripetuti
 const _webpExistenceCache = {};
 
+$('audioToggle').onclick = () => {
+  const a = $('bg-music');
+  if (a.paused) a.play(); else a.pause();
+};
 // controlla se webp esiste (tramite caricamento immagine, risolve true/false)
 function checkWebpExists(webpPath) {
   return new Promise((resolve) => {
@@ -1392,6 +1423,7 @@ async function renderArenaDuel() {
   const name1 = document.createElement('div');
   name1.className = 'char-name';
   name1.textContent = d.char1.name;
+  if (d.char1?.conqueror_haki) name1.classList.add('conqueror');
   pick1.appendChild(img1);
   pick1.appendChild(name1);
 
@@ -1408,6 +1440,7 @@ async function renderArenaDuel() {
   const name2 = document.createElement('div');
   name2.className = 'char-name';
   name2.textContent = d.char2.name;
+  if (d.char2?.conqueror_haki) name2.classList.add('conqueror');
   pick2.appendChild(img2);
   pick2.appendChild(name2);
 
@@ -1416,6 +1449,7 @@ async function renderArenaDuel() {
   duelContainer.appendChild(pick2);
 
   wrapper.appendChild(duelContainer);
+
 
   // eventi click
   $('pick1').onclick = () => recordArenaWin(1);
@@ -1847,6 +1881,42 @@ if (swapState.picks.length === 2) {
   swapState.picks = [];
 }
 });
+function showSwapHUD(teamId){
+  if (document.getElementById('swapHUD')) return;
+  const hud = document.createElement('div');
+  hud.id = 'swapHUD';
+  hud.innerHTML = `
+    <span>🔄 Swap attivo: <b>${teamId === 'team1' ? 'Team 1' : 'Team 2'}</b></span>
+    <button id="hudSkip">⏭️ Salta</button>
+    <button id="hudDone">✅ Fine</button>
+  `;
+  document.body.appendChild(hud);
+  $('hudSkip').onclick = () => {
+    swapState.active = false; swapState.picks = [];
+    openSwapModal(); // rientra nella modal: “Inizia Arena” è disponibile
+    document.getElementById('swapMsg').textContent = 'Swap saltato. Puoi iniziare l\'Arena.';
+  };
+  $('hudDone').onclick = () => { openSwapModal(); };
+}
+
+function hideSwapHUD(){ document.getElementById('swapHUD')?.remove(); }
+
+// quando entri nello swap, mostra HUD
+function startSwapForTeam(teamId) {
+  swapState.active = true;
+  swapState.team = teamId;
+  swapState.picks = [];
+  document.getElementById('swapMsg').textContent =
+    `Seleziona due ruoli della squadra ${teamId === 'team1' ? '1' : '2'} da scambiare.`;
+  document.getElementById('swapOverlay').style.display = 'none';
+  swapModalEl.classList.remove('show');
+  showSwapHUD(teamId); // <— QUI
+}
+
+// quando torni/chiudi la modal, nascondi HUD
+function openSwapModal(){ createSwapModal(); document.getElementById('swapOverlay').style.display='block'; swapModalEl.classList.add('show'); swapState.open = true; hideSwapHUD(); }
+function closeSwapModal(){ document.getElementById('swapOverlay').style.display='none'; swapModalEl.classList.remove('show'); swapState.open=false; swapState.active=false; swapState.team=null; swapState.picks=[]; document.querySelectorAll('.role').forEach(r=>r.classList.remove('selected-for-swap')); hideSwapHUD(); }
+
 
 /* ----------------- Sostituisci checkTeamsFull() con questa versione ----------------- */
 function checkTeamsFull() {
@@ -1947,3 +2017,4 @@ document.getElementById('start-btn').addEventListener('click', function() {
 
   </body>
   </html>
+
