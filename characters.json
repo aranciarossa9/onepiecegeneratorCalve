@@ -709,7 +709,8 @@
   "role": "Gorosei",
   "devil_fruit": "Unknown",
   "bounty": null,
-  "image": "images/saturn.jpg"
+  "image": "images/saturn.jpg",
+   "conqueror_haki": true
 },
 {
   "id": 70,
@@ -720,7 +721,9 @@
   "devil_fruit": "Unknown",
   "bounty": null,
   "image": "images/mars.jpg",
-  "secondImage": "images/mars2.png"
+  "secondImage": "images/mars2.png",
+   "conqueror_haki": true
+
 },
 {
   "id": 71,
@@ -750,7 +753,7 @@
   "role": "Navigator",
   "devil_fruit": "Unknown",
   "bounty": "Unknown",
-  "image": "images/lafitte.jpg"
+  "image": "images/lafitte.png"
 },
 {
   "id": 74,
@@ -760,7 +763,7 @@
   "role": "Captain of the Sixth Ship",
   "devil_fruit": "Inu Inu no Mi, Model: Kyubi no Kitsune",
   "bounty": "Unknown",
-  "image": "images/devon.png"
+  "image": "images/catarina.png"
 },
 {
   "id": 75,
@@ -771,7 +774,129 @@
   "devil_fruit": null,
   "bounty": "Unknown",
   "image": "images/beckman.png"
-}
+},
+[
+  {
+    "id": 76,
+    "name": "Scopper Gaban",
+    "aliases": ["Scopper Gaban"],
+    "crew": "Roger Pirates",
+    "role": "Left Hand",
+    "devil_fruit": "Unknown",
+    "bounty": "Unknown",
+    "image": "images/scopper_gaban.jpg"
+  },
+  {
+    "id": 77,
+    "name": "Saint Figarland Garling",
+    "aliases": ["Garling"],
+    "crew": "World Government",
+    "role": "Gorosei",
+    "devil_fruit": "Unknown",
+    "bounty": "Unknown",
+    "image": "images/garling.jpg",
+     "conqueror_haki": true
+  },
+  {
+    "id": 78,
+    "name": "Basil Hawkins",
+    "aliases": ["Hawkins"],
+    "crew": "Hawkins Pirates",
+    "role": "Captain",
+    "devil_fruit": "Wara Wara no Mi",
+    "bounty": "320,000,000",
+    "image": "images/hawkins.jpg"
+  },
+  {
+    "id": 79,
+    "name": "Saint Shepherd Ju Peter",
+    "aliases": ["Ju Peter"],
+    "crew": "World Government",
+    "role": "Gorosei",
+    "devil_fruit": "Unknown",
+    "bounty": "Unknown",
+    "image": "images/jupiter.jpg",
+     "secondImage": "images/jupiter2.jpeg",
+     "conqueror_haki": true
+  },
+  {
+    "id": 80,
+    "name": "Saint Topman Warcury",
+    "aliases": ["Warcury"],
+    "crew": "World Government",
+    "role": "Gorosei",
+    "devil_fruit": "Unknown",
+    "bounty": "Unknown",
+    "image": "images/mercury.png",
+     "secondImage": "images/mercury2.png",
+     "conqueror_haki": true
+  },
+  {
+    "id": 81,
+    "name": "Saint Ethanbaron V. Nusjuro",
+    "aliases": ["Nusjuro"],
+    "crew": "World Government",
+    "role": "Gorosei",
+    "devil_fruit": "Unknown",
+    "bounty": "Unknown",
+    "image": "images/nusjuro.jpg",
+    "secondImage": "images/nusjuro2.jpg",
+     "conqueror_haki": true
+  },
+  {
+    "id": 82,
+    "name": "Koby",
+    "aliases": ["Koby the Hero"],
+    "crew": "Marine",
+    "role": "Captain",
+    "devil_fruit": "None",
+    "bounty": "Unknown",
+    "image": "images/koby.jpg"
+  },
+  {
+    "id": 83,
+    "name": "Daz Bonez",
+    "aliases": ["Mr. 1"],
+    "crew": "Baroque Works",
+    "role": "Agent",
+    "devil_fruit": "Supa Supa no Mi",
+    "bounty": "Unknown",
+    "image": "images/mrone.png"
+  },
+  {
+    "id": 84,
+    "name": "Nekomamushi",
+    "aliases": ["Neko"],
+    "crew": "Minks",
+    "role": "Duke of Zou",
+    "devil_fruit": "None",
+    "bounty": "Unknown",
+    "image": "images/neko.jpg"
+
+  },
+  {
+    "id": 85,
+    "name": "Inuarashi",
+    "aliases": ["Inu"],
+    "crew": "Minks",
+    "role": "Duke of Zou",
+    "devil_fruit": "None",
+    "bounty": "Unknown",
+    "image": "images/inuarashi.jpg"
+
+  },
+  {
+    "id": 86,
+    "name": "Shiki",
+    "aliases": ["Golden Lion Shiki"],
+    "crew": "Golden Lion Pirates",
+    "role": "Captain",
+    "devil_fruit": "Fuwa Fuwa no Mi",
+    "bounty": "Unknown",
+    "image": "images/shiki.png"
+  }
+]
+
 
 
 ]
