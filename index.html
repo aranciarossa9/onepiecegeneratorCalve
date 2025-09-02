@@ -1055,7 +1055,8 @@ h1 {
 .char-name{
    font-family: 'Pirata One', serif;
    font-size: 22px;
-  color: #3b2f1a;
+    color: #ffdd57;
+  text-shadow: 0 0 10px rgba(255, 0, 0, 0.8);
   margin-top:8px;
   font-weight:800;
   font-size:18px;
@@ -1188,9 +1189,35 @@ width: 100%; /* full width on small screens */
   display: flex;
   flex-wrap: wrap;
   justify-content: center; /* Centra le card */
-  gap: 20px;
+  gap: 15px;
   margin-bottom: 30px;
   width: 100%;
+}
+@media (max-width: 480px) {
+  .winning-team {
+    gap: 10px;
+  }
+  
+  .winner-card {
+    width: 140px;
+    padding: 12px;
+  }
+  
+  .winner-card picture,
+  .winner-card img {
+    height: 160px;
+  }
+}
+@media (max-width: 360px) {
+  .winner-card {
+    width: 130px;
+    padding: 10px;
+  }
+  
+  .winner-card picture,
+  .winner-card img {
+    height: 150px;
+  }
 }
 .victory-buttons {
   display: flex;
@@ -1219,14 +1246,58 @@ width: 100%; /* full width on small screens */
   flex-direction: column;
   align-items: center;
 }
+.winner-card picture,
+.winner-card img {
+  width: 100%;
+  height: 180px;
+  object-fit: cover;
+  border-radius: 8px;
+  margin-bottom: 10px;
+}
+.winner-card picture:empty::before,
+.winner-card img[src=""],
+.winner-card img:not([src]) {
+  content: "";
+  display: block;
+  width: 100%;
+  height: 180px;
+  background: linear-gradient(45deg, #2b356f, #4f74ff);
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-family: 'Pirata One', serif;
+  font-size: 14px;
+}
+.winner-card picture:empty::after {
+  content: "Image not available";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  color: #fff;
+  text-align: center;
+  width: 100%;
+  padding: 0 10px;
+  box-sizing: border-box;
+}
 .winner-image {
   width: 100%;
   height: 180px;
   object-fit: cover;
   border-radius: 8px;
   margin-bottom: 10px;
-  background: #2b356f; /* Sfondo di fallback */
+   /* Sfondo di fallback */
+   background: linear-gradient(90deg, #2b356f 25%, #3a4a8f 50%, #2b356f 75%);
+  background-size: 200% 100%;
+  animation: loading 1.5s infinite;
 }
+@keyframes loading {
+  0% { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
+}
+
 .winner-name {
   font-family: 'Pirata One', serif;
   font-size: 1.2em;
@@ -2159,7 +2230,8 @@ function spawnSmoke() {
   setTimeout(() => s.remove(), 3000);
 }
 
-function showVictoryScreen(winningTeam) {
+// Modifica la funzione showVictoryScreen per mostrare un loader
+async function showVictoryScreen(winningTeam) {
   const { score1, score2 } = arenaState;
   const team1Chars = getTeamCharacters('team1');
   const team2Chars = getTeamCharacters('team2');
@@ -2168,7 +2240,7 @@ function showVictoryScreen(winningTeam) {
   $('arenaDuelCounter').textContent = '';
   $('arenaScore').textContent = '';
   
-  // CORREZIONE: Usare immagini assolute e layout corretto
+  // Mostra prima la struttura base con placeholder
   $('duelWrapper').innerHTML = `
     <div class="victory-screen">
       <h1 class="victory-title">${winningTeam === 1 ? 'GIOCATORE 1' : 'GIOCATORE 2'} VINCE!</h1>
@@ -2176,12 +2248,12 @@ function showVictoryScreen(winningTeam) {
       <div class="victory-subtitle">Ha vinto ${score1 > score2 ? score1 : score2} duelli su 5</div>
       
       <h2 class="winning-team-title">Squadra Vincente</h2>
-      <div class="winning-team">
-        ${winningChars.map(char => `
+      <div class="winning-team" id="winningTeamContainer">
+        ${winningChars.map(() => `
           <div class="winner-card">
-            <img src="${char.image}" alt="${char.name}" class="winner-image" onerror="this.src='https://via.placeholder.com/150x200/333/fff?text=Image+Not+Found'">
-            <div class="winner-name">${char.name}</div>
-            <div class="winner-role">${char.role || '—'}</div>
+            <div class="winner-image loading"></div>
+            <div class="winner-name">Caricamento...</div>
+            <div class="winner-role">—</div>
           </div>
         `).join('')}
       </div>
@@ -2192,6 +2264,32 @@ function showVictoryScreen(winningTeam) {
       </div>
     </div>
   `;
+  
+  // Sostituisci i placeholder con le immagini reali
+  const container = document.getElementById('winningTeamContainer');
+  const cards = container.querySelectorAll('.winner-card');
+  
+  for (let i = 0; i < winningChars.length; i++) {
+    const char = winningChars[i];
+    const card = cards[i];
+    
+    if (card && char) {
+      // Rimuovi il placeholder
+      const placeholder = card.querySelector('.loading');
+      if (placeholder) placeholder.remove();
+      
+      // Aggiungi l'immagine responsive
+      const img = await createResponsiveImage(char.image, char.name);
+      img.classList.add('winner-image');
+      card.insertBefore(img, card.firstChild);
+      
+      // Aggiorna nome e ruolo
+      const nameDiv = card.querySelector('.winner-name');
+      const roleDiv = card.querySelector('.winner-role');
+      if (nameDiv) nameDiv.textContent = char.name;
+      if (roleDiv) roleDiv.textContent = char.role || '—';
+    }
+  }
   
   // Aggiungi gli event listener ai pulsanti
   $('restartArena').onclick = () => {
