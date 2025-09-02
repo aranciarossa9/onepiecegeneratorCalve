@@ -2240,7 +2240,23 @@ async function showVictoryScreen(winningTeam) {
   $('arenaDuelCounter').textContent = '';
   $('arenaScore').textContent = '';
   
-  // Mostra prima la struttura base con placeholder
+  // 1. URL assoluti - fondamentale per evitare problemi di percorso
+  const getAbsoluteImageUrl = (relativePath) => {
+    if (!relativePath) return 'data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="150" height="200" viewBox="0 0 150 200"><rect width="150" height="200" fill="%232b356f"/><text x="75" y="100" font-family="Arial" font-size="12" fill="white" text-anchor="middle">No Image</text></svg>';
+    
+    if (relativePath.startsWith('http') || relativePath.startsWith('data:')) {
+      return relativePath;
+    }
+    
+    // Risolvi il percorso relativo correttamente
+    try {
+      return new URL(relativePath, window.location.href).href;
+    } catch (e) {
+      return 'data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="150" height="200" viewBox="0 0 150 200"><rect width="150" height="200" fill="%232b356f"/><text x="75" y="100" font-family="Arial" font-size="12" fill="white" text-anchor="middle">Invalid URL</text></svg>';
+    }
+  };
+
+  // 2. Usa data URI come fallback invece di placeholder esterni
   $('duelWrapper').innerHTML = `
     <div class="victory-screen">
       <h1 class="victory-title">${winningTeam === 1 ? 'GIOCATORE 1' : 'GIOCATORE 2'} VINCE!</h1>
@@ -2248,12 +2264,16 @@ async function showVictoryScreen(winningTeam) {
       <div class="victory-subtitle">Ha vinto ${score1 > score2 ? score1 : score2} duelli su 5</div>
       
       <h2 class="winning-team-title">Squadra Vincente</h2>
-      <div class="winning-team" id="winningTeamContainer">
-        ${winningChars.map(() => `
+      <div class="winning-team">
+        ${winningChars.map(char => `
           <div class="winner-card">
-            <div class="winner-image loading"></div>
-            <div class="winner-name">Caricamento...</div>
-            <div class="winner-role">—</div>
+            <div class="winner-image-container">
+              <img src="${getAbsoluteImageUrl(char.image)}" alt="${char.name}" class="winner-image" 
+                   loading="eager" <!-- eager invece di lazy per forzare caricamento -->
+                   onerror="this.onerror=null; this.src='data:image/svg+xml;utf8,<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"150\" height=\"200\" viewBox=\"0 0 150 200\"><rect width=\"150\" height=\"200\" fill=\"%232b356f\"/><text x=\"75\" y=\"100\" font-family=\"Arial\" font-size=\"12\" fill=\"white\" text-anchor=\"middle\">Error Loading</text></svg>';">
+            </div>
+            <div class="winner-name">${char.name}</div>
+            <div class="winner-role">${char.role || '—'}</div>
           </div>
         `).join('')}
       </div>
@@ -2264,34 +2284,21 @@ async function showVictoryScreen(winningTeam) {
       </div>
     </div>
   `;
-  
-  // Sostituisci i placeholder con le immagini reali
-  const container = document.getElementById('winningTeamContainer');
-  const cards = container.querySelectorAll('.winner-card');
-  
-  for (let i = 0; i < winningChars.length; i++) {
-    const char = winningChars[i];
-    const card = cards[i];
-    
-    if (card && char) {
-      // Rimuovi il placeholder
-      const placeholder = card.querySelector('.loading');
-      if (placeholder) placeholder.remove();
-      
-      // Aggiungi l'immagine responsive
-      const img = await createResponsiveImage(char.image, char.name);
-      img.classList.add('winner-image');
-      card.insertBefore(img, card.firstChild);
-      
-      // Aggiorna nome e ruolo
-      const nameDiv = card.querySelector('.winner-name');
-      const roleDiv = card.querySelector('.winner-role');
-      if (nameDiv) nameDiv.textContent = char.name;
-      if (roleDiv) roleDiv.textContent = char.role || '—';
-    }
-  }
-  
-  // Aggiungi gli event listener ai pulsanti
+
+  // 3. Forza il caricamento delle immagini
+  setTimeout(() => {
+    const images = document.querySelectorAll('.winner-image:not([src=""])');
+    images.forEach(img => {
+      if (img.src && !img.complete) {
+        // Tecnica per forzare il caricamento
+        const src = img.src;
+        img.src = '';
+        img.src = src;
+      }
+    });
+  }, 100);
+
+  // Event listeners
   $('restartArena').onclick = () => {
     arenaState.idx = 0;
     arenaState.score1 = 0;
@@ -2367,4 +2374,3 @@ document.getElementById('start-btn').addEventListener('click', function() {
 
   </body>
   </html>
-
