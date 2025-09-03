@@ -1448,49 +1448,50 @@ function checkWebpExists(webpPath) {
 }
 
 // crea elemento immagine responsivo: usa .webp solo se esiste, altrimenti il path originale
-async function createResponsiveImage(imgPath, alt = '', cls = '') {
-  if (!imgPath) {
-    const placeholder = document.createElement('img');
-    placeholder.className = cls || '';
-    placeholder.alt = alt || 'no image';
-    placeholder.src = ''; // or data URI fallback
-    return placeholder;
+function createResponsiveImage(imagePath, alt = '', cls = '') {
+  if (!imagePath) return null;
+
+  // Extract base name + extension
+  const extMatch = imagePath.match(/\.(jpe?g|png|webp)$/i);
+  if (!extMatch) return null;
+  const baseName = imagePath.replace(/\.(jpe?g|png|webp)$/i, '');
+  const ext = extMatch[1].toLowerCase();
+
+  // Picture wrapper
+  const picture = document.createElement('picture');
+
+  // 1) WebP first (only if original isn’t already webp)
+  if (ext !== 'webp') {
+    const sourceWebp = document.createElement('source');
+    sourceWebp.srcset = `${baseName}.webp`;
+    sourceWebp.type = 'image/webp';
+    picture.appendChild(sourceWebp);
   }
 
-  const webpPath = imgPath.replace(/\.(jpg|jpeg|png)$/i, '.webp');
-  const hasWebp = await checkWebpExists(webpPath);
-
-  if (hasWebp) {
-    const picture = document.createElement('picture');
-
-    const source = document.createElement('source');
-    source.srcset = webpPath;
-    source.type = 'image/webp';
-    picture.appendChild(source);
-
-    const img = document.createElement('img');
-    if (cls) img.className = cls;
-    // NOTE: this is the key fix — keep the IMG's src as the original format so
-    // browsers that don't support webp fall back correctly.
-    img.src = imgPath;
-    img.alt = alt;
-    img.loading = 'lazy';
-    // fallback guard: if .webp somehow gets chosen but fails, swap to original
-    img.addEventListener('error', () => {
-      if (!img.src.endsWith(imgPath)) img.src = imgPath;
-    }, { once: true });
-
-    picture.appendChild(img);
-    return picture;
-  } else {
-    const img = document.createElement('img');
-    if (cls) img.className = cls;
-    img.src = imgPath;
-    img.alt = alt;
-    img.loading = 'lazy';
-    return img;
+  // 2) Original format as fallback source (for browsers that don’t support webp but prefer <source>)
+  if (ext === 'jpg' || ext === 'jpeg') {
+    const sourceJpg = document.createElement('source');
+    sourceJpg.srcset = imagePath;
+    sourceJpg.type = 'image/jpeg';
+    picture.appendChild(sourceJpg);
+  } else if (ext === 'png') {
+    const sourcePng = document.createElement('source');
+    sourcePng.srcset = imagePath;
+    sourcePng.type = 'image/png';
+    picture.appendChild(sourcePng);
   }
+
+  // 3) Always end with <img> fallback
+  const img = document.createElement('img');
+  img.src = imagePath;   // always works
+  img.alt = alt;
+  if (cls) img.className = cls;
+  img.loading = 'lazy';
+  picture.appendChild(img);
+
+  return picture;
 }
+
 function syncCardHeight(card) {
   const front = card.querySelector('.card-front');
   const back  = card.querySelector('.card-back');
