@@ -2262,18 +2262,33 @@ function createFallbackSvgData(text = 'No Image') {
   return 'data:image/svg+xml;utf8,' + encodeURIComponent(svg);
 }
 
+function getRepoBase() {
+  // Detect if running on GitHub Pages
+  const path = window.location.pathname.split('/');
+  if (window.location.hostname.includes('github.io') && path.length > 1) {
+    return '/' + path[1] + '/'; // e.g. /onepiecegeneratorCalve/
+  }
+  return '/';
+}
+
 function loadSmartImage(basePathOrFull, exts, callback) {
-  // Strip extension if present
+  // Strip extension, but keep folder path (like "images/kanjuro")
   let base = basePathOrFull.replace(/\.(jpg|jpeg|png|webp)$/i, '');
   let index = 0;
 
   function tryNext() {
     if (index >= exts.length) {
+      console.warn("No image found for", basePathOrFull);
       callback(createFallbackSvgData('No Image'));
       return;
     }
 
-    const src = `${base}.${exts[index]}`;
+    // Always prepend repo base if needed (for GitHub Pages)
+    const repoBase = getRepoBase();
+    const src = new URL(`${repoBase}${base}.${exts[index]}`, window.location.origin).href;
+
+    console.log("Trying:", src); // debug in console
+
     const img = new Image();
     img.onload = () => callback(src);
     img.onerror = () => { index++; tryNext(); };
@@ -2282,6 +2297,7 @@ function loadSmartImage(basePathOrFull, exts, callback) {
 
   tryNext();
 }
+
 
 
 async function showVictoryScreen(winningTeam) {
