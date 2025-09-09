@@ -2254,8 +2254,36 @@ function spawnSmoke() {
   container.appendChild(s);
   setTimeout(() => s.remove(), 3000);
 }
+function createFallbackSvgData(text = 'No Image') {
+  const svg = `<svg xmlns="http://www.w3.org/2000/svg" width="150" height="200" viewBox="0 0 150 200">
+    <rect width="150" height="200" fill="#2b356f"/>
+    <text x="75" y="100" font-family="Arial" font-size="12" fill="white" text-anchor="middle">${text}</text>
+  </svg>`;
+  return 'data:image/svg+xml;utf8,' + encodeURIComponent(svg);
+}
 
-// Modifica la funzione showVictoryScreen per mostrare un loader
+function loadSmartImage(basePathOrFull, exts, callback) {
+  // Strip extension if present
+  let base = basePathOrFull.replace(/\.(jpg|jpeg|png|webp)$/i, '');
+  let index = 0;
+
+  function tryNext() {
+    if (index >= exts.length) {
+      callback(createFallbackSvgData('No Image'));
+      return;
+    }
+
+    const src = `${base}.${exts[index]}`;
+    const img = new Image();
+    img.onload = () => callback(src);
+    img.onerror = () => { index++; tryNext(); };
+    img.src = src;
+  }
+
+  tryNext();
+}
+
+
 async function showVictoryScreen(winningTeam) {
   const { score1, score2 } = arenaState;
   const team1Chars = getTeamCharacters('team1');
@@ -2265,76 +2293,96 @@ async function showVictoryScreen(winningTeam) {
   $('arenaDuelCounter').textContent = '';
   $('arenaScore').textContent = '';
   
-  // 1. URL assoluti - fondamentale per evitare problemi di percorso
-  const getAbsoluteImageUrl = (relativePath) => {
-    if (!relativePath) return 'data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="150" height="200" viewBox="0 0 150 200"><rect width="150" height="200" fill="%232b356f"/><text x="75" y="100" font-family="Arial" font-size="12" fill="white" text-anchor="middle">No Image</text></svg>';
-    
-    if (relativePath.startsWith('http') || relativePath.startsWith('data:')) {
-      return relativePath;
-    }
-    
-    // Risolvi il percorso relativo correttamente
-    try {
-      return new URL(relativePath, window.location.href).href;
-    } catch (e) {
-      return 'data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="150" height="200" viewBox="0 0 150 200"><rect width="150" height="200" fill="%232b356f"/><text x="75" y="100" font-family="Arial" font-size="12" fill="white" text-anchor="middle">Invalid URL</text></svg>';
-    }
-  };
+  // Clear wrapper
+  const wrapper = $('duelWrapper');
+  wrapper.innerHTML = '';
 
-  // 2. Usa data URI come fallback invece di placeholder esterni
-  $('duelWrapper').innerHTML = `
-    <div class="victory-screen">
-      <h1 class="victory-title">${winningTeam === 1 ? 'GIOCATORE 1' : 'GIOCATORE 2'} VINCE!</h1>
-      <div class="victory-score">${score1} - ${score2}</div>
-      <div class="victory-subtitle">Ha vinto ${score1 > score2 ? score1 : score2} duelli su 5</div>
-      
-      <h2 class="winning-team-title">Squadra Vincente</h2>
-      <div class="winning-team">
-        ${winningChars.map(char => `
-          <div class="winner-card">
-            <div class="winner-image-container">
-              <img src="${getAbsoluteImageUrl(char.image)}" alt="${char.name}" class="winner-image" 
-                   loading="eager" <!-- eager invece di lazy per forzare caricamento -->
-                   onerror="this.onerror=null; this.src='data:image/svg+xml;utf8,<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"150\" height=\"200\" viewBox=\"0 0 150 200\"><rect width=\"150\" height=\"200\" fill=\"%232b356f\"/><text x=\"75\" y=\"100\" font-family=\"Arial\" font-size=\"12\" fill=\"white\" text-anchor=\"middle\">Error Loading</text></svg>';">
-            </div>
-            <div class="winner-name">${char.name}</div>
-            <div class="winner-role">${char.role || '—'}</div>
-          </div>
-        `).join('')}
-      </div>
-      
-      <div class="victory-buttons">
-        <button id="restartArena" class="arena-btn">Rigioca Arena</button>
-        <button id="closeArena" class="arena-btn">Torna alle Squadre</button>
-      </div>
-    </div>
+  const victoryScreen = document.createElement('div');
+  victoryScreen.className = 'victory-screen';
+
+  // Title + score
+  victoryScreen.innerHTML = `
+    <h1 class="victory-title">${winningTeam === 1 ? 'GIOCATORE 1' : 'GIOCATORE 2'} VINCE!</h1>
+    <div class="victory-score">${score1} - ${score2}</div>
+    <div class="victory-subtitle">Ha vinto ${score1 > score2 ? score1 : score2} duelli su 5</div>
+    <h2 class="winning-team-title">Squadra Vincente</h2>
   `;
 
-  // 3. Forza il caricamento delle immagini
-  setTimeout(() => {
-    const images = document.querySelectorAll('.winner-image:not([src=""])');
-    images.forEach(img => {
-      if (img.src && !img.complete) {
-        // Tecnica per forzare il caricamento
-        const src = img.src;
-        img.src = '';
-        img.src = src;
-      }
+  // Winning team container
+  const winningContainer = document.createElement('div');
+  winningContainer.className = 'winning-team';
+
+  // Loop through winning characters
+  winningChars.forEach(char => {
+    const card = document.createElement('div');
+    card.className = 'winner-card';
+
+    // image container
+    const imgContainer = document.createElement('div');
+    imgContainer.className = 'winner-image-container';
+
+    const img = document.createElement('img');
+    img.className = 'winner-image';
+    img.loading = 'eager';
+    img.alt = char.name;
+
+    // ✅ smart loader
+    loadSmartImage(char.image, ['webp', 'png', 'jpg', 'jpeg'], function(src) {
+      img.src = src;
     });
-  }, 100);
+
+    imgContainer.appendChild(img);
+    card.appendChild(imgContainer);
+
+    // name + role
+    const nameDiv = document.createElement('div');
+    nameDiv.className = 'winner-name';
+    nameDiv.textContent = char.name;
+    card.appendChild(nameDiv);
+
+    const roleDiv = document.createElement('div');
+    roleDiv.className = 'winner-role';
+    roleDiv.textContent = char.role || '—';
+    card.appendChild(roleDiv);
+
+    winningContainer.appendChild(card);
+  });
+
+  victoryScreen.appendChild(winningContainer);
+
+  // Buttons
+  const buttonsDiv = document.createElement('div');
+  buttonsDiv.className = 'victory-buttons';
+
+  const restartBtn = document.createElement('button');
+  restartBtn.id = 'restartArena';
+  restartBtn.className = 'arena-btn';
+  restartBtn.textContent = 'Rigioca Arena';
+
+  const closeBtn = document.createElement('button');
+  closeBtn.id = 'closeArena';
+  closeBtn.className = 'arena-btn';
+  closeBtn.textContent = 'Torna alle Squadre';
+
+  buttonsDiv.appendChild(restartBtn);
+  buttonsDiv.appendChild(closeBtn);
+
+  victoryScreen.appendChild(buttonsDiv);
+  wrapper.appendChild(victoryScreen);
 
   // Event listeners
-  $('restartArena').onclick = () => {
+  restartBtn.onclick = () => {
     arenaState.idx = 0;
     arenaState.score1 = 0;
     arenaState.score2 = 0;
     renderArenaDuel();
   };
   
-  $('closeArena').onclick = () => {
+  closeBtn.onclick = () => {
     $('arenaOverlay').style.display = 'none';
   };
 }
+
 // Funzione helper per ottenere i personaggi di un team
 // Funzione helper per ottenere i personaggi di un team
 function getTeamCharacters(teamId) {
@@ -2399,3 +2447,4 @@ document.getElementById('start-btn').addEventListener('click', function() {
 
   </body>
   </html>
+
