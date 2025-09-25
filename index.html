@@ -2276,6 +2276,10 @@ function loadSmartImage(basePathOrFull, exts, callback) {
   let base = basePathOrFull.replace(/\.(jpg|jpeg|png|webp)$/i, '');
   let index = 0;
 
+  // detect types
+  const isAbsoluteUrl = /^https?:\/\//i.test(base); // starts with protocol
+  const isRootRelative = !isAbsoluteUrl && base.startsWith('/'); // starts with '/'
+
   function tryNext() {
     if (index >= exts.length) {
       console.warn("No image found for", basePathOrFull);
@@ -2283,9 +2287,19 @@ function loadSmartImage(basePathOrFull, exts, callback) {
       return;
     }
 
-    // Always prepend repo base if needed (for GitHub Pages)
-    const repoBase = getRepoBase();
-    const src = new URL(`${repoBase}${base}.${exts[index]}`, window.location.origin).href;
+    let src;
+
+    if (isAbsoluteUrl) {
+      // e.g. "https://.../images/robin" => keep it as-is
+      src = `${base}.${exts[index]}`;
+    } else if (isRootRelative) {
+      // e.g. "/images/robin" => resolve with origin
+      src = new URL(`${base}.${exts[index]}`, window.location.origin).href;
+    } else {
+      // plain relative path (e.g. "images/robin") => prepend repo base (GitHub Pages)
+      const repoBase = getRepoBase(); // returns "/<repo>/"
+      src = new URL(`${repoBase}${base}.${exts[index]}`, window.location.origin).href;
+    }
 
     console.log("Trying:", src); // debug in console
 
