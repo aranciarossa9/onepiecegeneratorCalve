@@ -2370,10 +2370,10 @@ async function showVictoryScreen(winningTeam) {
     nameDiv.textContent = char.name;
     card.appendChild(nameDiv);
 
-    const roleDiv = document.createElement('div');
-    roleDiv.className = 'winner-role';
-    roleDiv.textContent = char.role || '—';
-    card.appendChild(roleDiv);
+   const roleDiv = document.createElement('div');
+roleDiv.className = 'winner-role';
+roleDiv.textContent = char.teamRole || '—';
+card.appendChild(roleDiv);
 
     winningContainer.appendChild(card);
   });
@@ -2424,14 +2424,18 @@ function getTeamCharacters(teamId) {
     if (charName && charName !== '—') {
       const character = data.find(c => c.name === charName);
       if (character) {
-        // non toccare character.image: resta "images/xxx.jpg"
-        characters.push({ ...character });
+        characters.push({
+          ...character,
+          teamRole: role.dataset.role || role.textContent?.trim() || '' 
+          // Assicuriamoci di prendere il ruolo dal DOM
+        });
       }
     }
   });
 
   return characters;
 }
+
 // --- Generazione rapida durante arena ---
 setInterval(() => {
   if (document.getElementById("arenaOverlay").style.display === "flex") {
