@@ -2418,22 +2418,18 @@ async function showVictoryScreen(winningTeam) {
 function getTeamCharacters(teamId) {
   const teamEl = $(teamId);
   const characters = [];
-  
+
   teamEl.querySelectorAll('.role').forEach(role => {
     const charName = role.dataset.character;
     if (charName && charName !== '—') {
       const character = data.find(c => c.name === charName);
       if (character) {
-        // Assicurati che l'URL dell'immagine sia assoluto
-        if (character.image && !character.image.startsWith('http')) {
-          // Se l'immagine è relativa, convertila in assoluta
-          character.image = new URL(character.image, window.location.origin).href;
-        }
-        characters.push(character);
+        // non toccare character.image: resta "images/xxx.jpg"
+        characters.push({ ...character });
       }
     }
   });
-  
+
   return characters;
 }
 // --- Generazione rapida durante arena ---
