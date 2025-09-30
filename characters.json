@@ -123,6 +123,7 @@
     "devil_fruit": null,
     "bounty": "4,048,900,000",
     "image": "images/shanks.jpg",
+    "secondimage": "images/shanks2.webp",
      "conqueror_haki": true
   },
   {
@@ -453,7 +454,8 @@
     "aliases": ["Dark King"],
     "devil_fruit": null,
     "conqueror_haki": true,
-    "image": "images/rayleigh.jpg"
+    "image": "images/rayleigh.jpg",
+    "secondimage": "images/rayleigh2.webp"
   },
   {"id": 45,
     "name": "Boa Hancock",
@@ -783,7 +785,7 @@
     "role": "Left Hand",
     "devil_fruit": "Unknown",
     "bounty": "Unknown",
-    "image": "images/gaban.png"
+    "image": "images/scopper_gaban.jpg"
   },
   {
     "id": 77,
@@ -793,7 +795,7 @@
     "role": "Gorosei",
     "devil_fruit": "Unknown",
     "bounty": "Unknown",
-    "image": "images/garling.png",
+    "image": "images/garling.jpg",
      "conqueror_haki": true
   },
   {
@@ -815,7 +817,7 @@
     "devil_fruit": "Unknown",
     "bounty": "Unknown",
     "image": "images/jupiter.jpg",
-     "secondImage": "images/jupiter2.jpg",
+     "secondImage": "images/jupiter2.jpeg",
      "conqueror_haki": true
   },
   {
@@ -870,7 +872,8 @@
     "role": "Duke of Zou",
     "devil_fruit": "None",
     "bounty": "Unknown",
-    "image": "images/neko.jpg"
+    "image": "images/neko.jpg",
+    "secondimage": "images/neko2.webp"
 
   },
   {
@@ -881,7 +884,8 @@
     "role": "Duke of Zou",
     "devil_fruit": "None",
     "bounty": "Unknown",
-    "image": "images/inuarashi.jpg"
+    "image": "images/inuarashi.jpg",
+    "secondimage": "images/inuarashi2.webp"
 
   },
   {
