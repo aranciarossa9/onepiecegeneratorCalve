@@ -123,7 +123,7 @@
     "devil_fruit": null,
     "bounty": "4,048,900,000",
     "image": "images/shanks.jpg",
-    "secondimage": "images/shanks2.webp",
+    "secondImage": "images/shanks2.webp",
      "conqueror_haki": true
   },
   {
@@ -455,7 +455,7 @@
     "devil_fruit": null,
     "conqueror_haki": true,
     "image": "images/rayleigh.jpg",
-    "secondimage": "images/rayleigh2.jpg"
+    "secondImage": "images/rayleigh2.jpg"
   },
   {"id": 45,
     "name": "Boa Hancock",
@@ -873,7 +873,7 @@
     "devil_fruit": "None",
     "bounty": "Unknown",
     "image": "images/neko.jpg",
-    "secondimage": "images/neko2.webp"
+    "secondImage": "images/neko2.webp"
 
   },
   {
@@ -885,7 +885,7 @@
     "devil_fruit": "None",
     "bounty": "Unknown",
     "image": "images/inuarashi.webp",
-    "secondimage": "images/inuarashi2.webp"
+    "secondImage": "images/inuarashi2.webp"
 
   },
   {
