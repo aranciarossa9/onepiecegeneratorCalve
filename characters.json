@@ -455,7 +455,7 @@
     "devil_fruit": null,
     "conqueror_haki": true,
     "image": "images/rayleigh.jpg",
-    "secondimage": "images/rayleigh2.webp"
+    "secondimage": "images/rayleigh2.jpg"
   },
   {"id": 45,
     "name": "Boa Hancock",
@@ -884,7 +884,7 @@
     "role": "Duke of Zou",
     "devil_fruit": "None",
     "bounty": "Unknown",
-    "image": "images/inuarashi.jpg",
+    "image": "images/inuarashi.webp",
     "secondimage": "images/inuarashi2.webp"
 
   },
