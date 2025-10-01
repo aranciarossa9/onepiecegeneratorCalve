@@ -9,7 +9,8 @@
     "bounty": "3,000,000,000",
     "image": "images/luffy.jpg",
     "secondImage": "images/luffywanted.jpeg",
-     "conqueror_haki": true
+     "conqueror_haki": true,
+      "topcharacter": true
   },
   {
     "id": 2,
@@ -200,7 +201,8 @@
     "devil_fruit": null,
     "bounty": "5,564,800,000",
     "image": "images/roger.jpg",
-     "conqueror_haki": true
+     "conqueror_haki": true,
+      "topcharacter": true
   },
   {
     "id": 20,
@@ -671,7 +673,8 @@
   "role": "Captain",
   "devil_fruit": "Doku Doku no Mi",
   "bounty": "Unknown",
-  "image": "images/xebec.jpg"
+  "image": "images/xebec.jpg",
+   "topcharacter": true
 },
 {
   "id": 66,
@@ -785,7 +788,7 @@
     "role": "Left Hand",
     "devil_fruit": "Unknown",
     "bounty": "Unknown",
-    "image": "images/scopper_gaban.jpg"
+    "image": "images/gaban.jpg"
   },
   {
     "id": 77,
