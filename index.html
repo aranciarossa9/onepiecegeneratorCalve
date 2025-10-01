@@ -643,6 +643,58 @@ h1 {
   border: 2px dashed rgba(255,255,255,0.06);
   min-height: 44px;
 }
+#topEntranceOverlay {
+  display: none;
+  position: fixed;
+  top: 0; left: 0;
+  width: 100vw; height: 100vh;
+  background: black;
+  z-index: 10000;
+  align-items: center;
+  justify-content: center;
+  color: #da2121;
+  font-family: 'Pirata One', serif;
+  font-size: 2em;
+  text-align: center;
+  overflow: hidden;
+}
+
+.haki-flash {
+  position: absolute;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+
+  background: url('images/light.png') repeat;
+  background-size: contain;
+  pointer-events: none;
+
+  mix-blend-mode: screen;
+  opacity: 0;
+  animation: hakiLightning 2.2s infinite;
+  filter: 
+    brightness(1.3)
+    sepia(1)
+    hue-rotate(-20deg)
+    saturate(6); /* tonalità rossa potente */
+}
+
+/* Effetto lampeggio */
+@keyframes hakiLightning {
+  0%, 20%, 100% { opacity: 0; }
+  10% { opacity: 0.85; }
+  13% { opacity: 0.2; }
+  17% { opacity: 0.6; }
+}
+
+#topEntranceOverlay.reveal {
+  animation: fadeOut 0.8s forwards;
+}
+
+@keyframes fadeOut {
+  to { opacity: 0; visibility: hidden; }
+}
+
+
 
 
 .legend {
@@ -1331,6 +1383,7 @@ width: 100%; /* full width on small screens */
 
   <!-- Hidden autoplay background music -->
   <audio id="bg-music" src="audio/binkssake.mp3" type="audio/mpeg" autoplay loop hidden></audio>
+  <a href="arena2.html" class="arena-link">Modalità Arena 2 Giocatori</a>
  <button id="audioToggle" class="intro-cta">🔊 Audio ON/OFF</button>
   <div id="intro-screen" class="intro-screen">
     <div class="intro-waves"></div>
@@ -1379,6 +1432,12 @@ width: 100%; /* full width on small screens */
   <div><span class="legend-box glow-both"></span> Bounty + Devil Fruit</div>
   <div><span class="legend-box glow-conqueror"></span> Conqueror’s Haki</div>
 </div>
+<!-- Overlay per i Top Character -->
+<div id="topEntranceOverlay">
+   <div class="haki-flash"></div>
+  <div id="swipeHint"> What...</div>
+</div>
+
 
 
   <div class="footer">One Piece fan project — solo per uso personale</div>
@@ -1517,12 +1576,51 @@ function syncCardHeight(card) {
     if (!img.complete) img.addEventListener('load', measure, { once: true });
   });
 }
+function triggerTopCharacterEntrance(char) {
+  const overlay = document.getElementById('topEntranceOverlay');
+  overlay.style.display = 'flex';
+  overlay.querySelector('#swipeHint').textContent = `⚡BIG NAME AHEAD... ⚡`;
+
+  let startX = null;
+  function onTouchStart(e) {
+    startX = e.touches[0].clientX;
+  }
+  function onTouchMove(e) {
+    if (!startX) return;
+    let dx = e.touches[0].clientX - startX;
+    if (Math.abs(dx) > 80) {
+      finishEntrance();
+    }
+  }
+  function onClick() {
+    finishEntrance();
+  }
+  function finishEntrance() {
+    overlay.classList.add('reveal');
+    setTimeout(() => {
+      overlay.style.display = 'none';
+      overlay.classList.remove('reveal');
+    }, 800);
+    overlay.removeEventListener('touchstart', onTouchStart);
+    overlay.removeEventListener('touchmove', onTouchMove);
+    overlay.removeEventListener('click', onClick);
+  }
+
+  overlay.addEventListener('touchstart', onTouchStart);
+  overlay.addEventListener('touchmove', onTouchMove);
+  overlay.addEventListener('click', onClick);
+}
+
+
 // showCards ora è async e crea i nodi DOM — incolla al posto della tua versione corrente
 async function showCards(chars) {
   const container = $('cards');
   container.innerHTML = "";
   for (const char of chars) {
     const card = document.createElement("div");
+    if (char.topcharacter) {
+  triggerTopCharacterEntrance(char);
+}
     card.className = "card";
 
 card.classList.add('style-creative')
