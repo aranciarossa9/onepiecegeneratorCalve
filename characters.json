@@ -9,8 +9,7 @@
     "bounty": "3,000,000,000",
     "image": "images/luffy.jpg",
     "secondImage": "images/luffywanted.jpeg",
-     "conqueror_haki": true,
-      "topcharacter": true
+     "conqueror_haki": true
   },
   {
     "id": 2,
@@ -125,7 +124,8 @@
     "bounty": "4,048,900,000",
     "image": "images/shanks.jpg",
     "secondImage": "images/shanks2.webp",
-     "conqueror_haki": true
+     "conqueror_haki": true,
+     "topcharacter": true
   },
   {
     "id": 13,
@@ -201,6 +201,7 @@
     "devil_fruit": null,
     "bounty": "5,564,800,000",
     "image": "images/roger.jpg",
+    "secondImage": "images/roger2.jpg",
      "conqueror_haki": true,
       "topcharacter": true
   },
@@ -477,7 +478,8 @@
     "aliases": ["Whitebeard"],
     "devil_fruit": "Gura Gura no Mi",
     "conqueror_haki": true,
-    "image": "images/whitebeard.jpg"
+    "image": "images/whitebeard.jpg",
+    "secondImage": "images/whitebeard2.jpg"
   },
   {"id": 47,
     "name": "Katakuri",
@@ -497,7 +499,9 @@
     "aliases": ["Hero of the Marines"],
     "devil_fruit": null,
     "conqueror_haki": true,
-    "image": "images/garp.jpg"
+    "topcharacter": true,
+    "image": "images/garp.webp",
+    "secondImage": "images/garp2.jpg"
   },
   {
   "id": 49,
@@ -900,6 +904,16 @@
     "devil_fruit": "Fuwa Fuwa no Mi",
     "bounty": "Unknown",
     "image": "images/shiki.png"
+  },
+  {
+    "id": 87,
+    "name": "Kōzuki Oden",
+    "aliases": ["Idiot Lord"],
+    "crew": " Roger Pirates , Whitebeard Pirates",
+    "role": " Daimyo",
+    "devil_fruit": "None",
+    "bounty": "Unknown",
+    "image": "images/oden.jpg"
   }
 ]
 
